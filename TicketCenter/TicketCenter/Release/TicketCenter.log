@@ -1,0 +1,24 @@
+﻿  Event.cpp
+D:\C++\TicketCenter\TicketCenter\TicketCenter\myString.h(24,21): warning C4018: '<': signed/unsigned mismatch
+  Hall.cpp
+D:\C++\TicketCenter\TicketCenter\TicketCenter\myString.h(24,21): warning C4018: '<': signed/unsigned mismatch
+  main.cpp
+D:\C++\TicketCenter\TicketCenter\TicketCenter\myString.h(24,21): warning C4018: '<': signed/unsigned mismatch
+D:\C++\TicketCenter\TicketCenter\TicketCenter\myVector.h(163,2): warning C4018: '<': signed/unsigned mismatch
+D:\C++\TicketCenter\TicketCenter\TicketCenter\myVector.h(162): message : while compiling class template member function 'void myVector<myString>::Print(void)'
+D:\C++\TicketCenter\TicketCenter\TicketCenter\main.cpp(13): message : see reference to function template instantiation 'void myVector<myString>::Print(void)' being compiled
+D:\C++\TicketCenter\TicketCenter\TicketCenter\main.cpp(11): message : see reference to class template instantiation 'myVector<myString>' being compiled
+D:\C++\TicketCenter\TicketCenter\TicketCenter\myVector.h(31,2): warning C4018: '<': signed/unsigned mismatch
+D:\C++\TicketCenter\TicketCenter\TicketCenter\myVector.h(26): message : while compiling class template member function 'void myVector<myString>::resize(void)'
+D:\C++\TicketCenter\TicketCenter\TicketCenter\myVector.h(113): message : see reference to function template instantiation 'void myVector<myString>::resize(void)' being compiled
+  myString.cpp
+D:\C++\TicketCenter\TicketCenter\TicketCenter\myString.h(24,21): warning C4018: '<': signed/unsigned mismatch
+D:\C++\TicketCenter\TicketCenter\TicketCenter\myString.cpp(47,21): warning C4018: '<=': signed/unsigned mismatch
+D:\C++\TicketCenter\TicketCenter\TicketCenter\myString.cpp(68,21): warning C4018: '<=': signed/unsigned mismatch
+D:\C++\TicketCenter\TicketCenter\TicketCenter\myString.cpp(120,25): warning C4018: '>': signed/unsigned mismatch
+D:\C++\TicketCenter\TicketCenter\TicketCenter\myString.cpp(131,25): warning C4018: '>': signed/unsigned mismatch
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 37 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  TicketCenter.vcxproj -> D:\C++\TicketCenter\TicketCenter\Release\TicketCenter.exe

@@ -93,7 +93,7 @@ public:
 		{
 			myString currentString;
 
-			while (str[j] != ' ')
+			while (str[j] != ' ' && str[j] != '\0')
 			{
 				currentString.Append(str[j]);
 				j++;

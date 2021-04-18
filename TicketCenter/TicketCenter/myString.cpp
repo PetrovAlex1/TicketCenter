@@ -164,8 +164,8 @@ std::ostream& operator<<(std::ostream& out, const myString& str)
 
 std::istream& operator>>(std::istream& in, myString& str)
 {
-	char data[64];
-	in.getline(data, 64);
+	char data[128];
+	in.getline(data, 128);
 
 	str.SetString(data);
 
