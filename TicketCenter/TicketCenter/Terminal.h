@@ -9,40 +9,40 @@ private:
 	myString command;
 	myVector<myString> arguments;
 public:
-	void ExpectCommand();
+	void expectCommand();
 
-	void SetCommand(const myString& cmd);
+	void setCommand(const myString& cmd);
 
-	myString GetCommand() const;
+	myString getCommand() const;
 };
 
-void Terminal::SetCommand(const myString& cmd)
+void Terminal::setCommand(const myString& cmd)
 {
 	this->command = cmd;
 }
 
-myString Terminal::GetCommand() const
+myString Terminal::getCommand() const
 {
 	return this->command;
 }
 
-void Terminal::ExpectCommand()
+void Terminal::expectCommand()
 {
 	std::cout << "Type your command: ";
 	myString cmd;
 	std::cin >> cmd;
-	this->SetCommand(cmd);
+	this->setCommand(cmd);
 }
 
-void StartUp()
+void startUp()
 {
 	std::cout << "Welcome to Ticket center!" << std::endl;
-	
+
 	Terminal t;
 
 	while (true)
 	{
-		t.ExpectCommand();
+		t.expectCommand();
 
 	}
 }

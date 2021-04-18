@@ -17,27 +17,27 @@ public:
 
 	~Hall();
 
-	void Print();
+	void print();
 
-	void Initialize(const myString& hallName, const int totalSeats, const int rows, const int seatsOnRows);
+	void initialize(const myString& hallName, const int totalSeats, const int rows, const int seatsOnRows);
 
-	void CreateMatrix(); 
+	void createMatrix(); 
 
-	void SetHallName(const myString& hallName);
+	void setHallName(const myString& hallName);
 
-	void SetTotalSeats(const int totalSets);
+	void setTotalSeats(const int totalSets);
 
-	void SetRows(const int rows);
+	void setRows(const int rows);
 
-	void SetSeatsOnRow(const int seatsOnRow);
+	void setSeatsOnRow(const int seatsOnRow);
 
-	myString GetHallName() const;
+	myString getHallName() const;
 
-	int GetTotalSeats() const;
+	int getTotalSeats() const;
 
-	int GetRows() const;
+	int getRows() const;
 
-	int GetSeatsOnRow() const;
+	int getSeatsOnRow() const;
 
 	Hall& operator=(const Hall& other);
 

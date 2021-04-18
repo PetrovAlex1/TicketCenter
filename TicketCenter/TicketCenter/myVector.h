@@ -7,8 +7,8 @@ class myVector
 {
 private:
 	T* data;
-	size_t size;
-	size_t capacity;
+	int size;
+	int capacity;
 
 	void copy(const myVector<T>& other)
 	{
@@ -57,12 +57,12 @@ public:
 		this->copy(other);
 	}
 
-	size_t Size()
+	int length()
 	{
 		return this->size;
 	}
 
-	int CountWhiteSpaces(const myString& str)
+	int countWhiteSpaces(const myString& str)
 	{
 		int countWS = 0;
 		int i = 0;
@@ -80,10 +80,10 @@ public:
 		return countWS;
 	}
 
-	myVector& Split(myString& str)
+	myVector& split(myString& str)
 	{
 		int i = 0;
-		int countWS = CountWhiteSpaces(str);//count whitespaces
+		int countWS = countWhiteSpaces(str);//count whitespaces
 
 		this->destroy();
 		this->data = new myString[countWS + 1];
@@ -95,18 +95,18 @@ public:
 
 			while (str[j] != ' ' && str[j] != '\0')
 			{
-				currentString.Append(str[j]);
+				currentString.append(str[j]);
 				j++;
 			}
 
-			this->Add(currentString);
+			this->add(currentString);
 			j++;
 		}
 
 		return *this;
 	}
 
-	void Add(const T& element)
+	void add(const T& element)
 	{
 		if (this->size + 1 >= this->capacity)
 		{
@@ -144,7 +144,7 @@ public:
 
 		for (int i = 0; i < otherSize; i++)
 		{
-			this->Add(other.data[i]);
+			this->add(other.data[i]);
 		}
 
 		return *this;
@@ -158,7 +158,7 @@ public:
 		return result;
 	}
 
-	void Print()
+	void print()
 	{
 		for (int i = 0; i < this->size; i++)
 		{

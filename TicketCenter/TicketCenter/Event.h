@@ -14,16 +14,18 @@ public:
 
 	Event();
 
-	void Initialize(const myString& eventName, const Hall& hall /*Date date*/);
+	void initialize(const myString& eventName, const Hall& hall /*Date date*/);
 
-	void SetEventName(const myString& eventName);
+	//void buyTicket(const int& row, const int& seat, /*date*/  )
 
-	void SetHall(const Hall& hall);
+	void setEventName(const myString& eventName);
 
-	myString GetEventName() const;
+	void setHall(const Hall& hall);
 
-	Hall GetHall() const;
+	myString getEventName() const;
 
-	int GetFreeSeats() const;
+	Hall getHall() const;
+
+	int getFreeSeats() const;
 
 };

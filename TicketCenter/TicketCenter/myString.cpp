@@ -24,7 +24,7 @@ myString::~myString()
 	this->destroy();
 }
 
-void myString::Append(const char symbol)
+void myString::append(const char symbol)
 {
 	if (this->data == nullptr)
 	{
@@ -39,7 +39,7 @@ void myString::Append(const char symbol)
 	this->size++;
 }
 
-void myString::Append(const char* data)
+void myString::append(const char* data)
 {
 	int oldSize = this->size;
 	int otherSize = strlen(data);
@@ -60,7 +60,7 @@ void myString::Append(const char* data)
 	this->size += otherSize;
 }
 
-void myString::Append(const myString& other)
+void myString::append(const myString& other)
 {
 	int oldSize = this->size;
 	int otherSize = other.size;
@@ -81,23 +81,23 @@ void myString::Append(const myString& other)
 	this->size += otherSize;
 }
 
-void myString::SetString(const char* data)
+void myString::setString(const char* data)
 {
 	int otherSize = strlen(data);
 	this->data = new char[otherSize + 1];
 
 	strcpy(this->data, data);
 
-	this->SetSize(otherSize);
-	this->SetCapacity(otherSize);
+	this->setSize(otherSize);
+	this->setCapacity(otherSize);
 }
 
-void myString::SetSize(const size_t size)
+void myString::setSize(const int size)
 {
 	this->size = size;
 }
 
-void myString::SetCapacity(const size_t size)
+void myString::setCapacity(const int size)
 {
 	if (this->capacity < size)
 	{
@@ -105,12 +105,12 @@ void myString::SetCapacity(const size_t size)
 	}
 }
 
-char* myString::GetData() const
+char* myString::getData() const
 {
 	return this->data;
 }
 
-const size_t myString::Length() const
+const int myString::length() const
 {
 	return this->size;
 }
@@ -150,7 +150,7 @@ myString& myString::operator=(const myString& other)
 
 std::ostream& operator<<(std::ostream& out, const myString& str)
 {
-	int size = str.Length();
+	int size = str.length();
 
 	for (int i = 0; i < size; i++)
 	{
@@ -167,7 +167,7 @@ std::istream& operator>>(std::istream& in, myString& str)
 	char data[128];
 	in.getline(data, 128);
 
-	str.SetString(data);
+	str.setString(data);
 
 	return in;
 }

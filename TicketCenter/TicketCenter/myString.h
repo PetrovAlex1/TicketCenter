@@ -11,8 +11,8 @@ class myString
 {
 private:
 	char* data;
-	size_t size;
-	size_t capacity;
+	int size;
+	int capacity;
 
 	void copy(const myString& other)
 	{
@@ -27,13 +27,13 @@ private:
 		}
 	}
 
-	void resize(size_t size)
+	void resize(int size)
 	{
 		while (this->capacity < size)
 		{
-			this->capacity *= 2;
+			this->capacity += 7;
 		}
-		
+
 		int newCapcacity = this->capacity;
 		char* newData = new char[newCapcacity + 1];
 
@@ -55,21 +55,21 @@ public:
 
 	~myString();
 
-	void Append(const char symbol);
+	void append(const char symbol);
 
-	void Append(const char* data);
+	void append(const char* data);
 
-	void Append(const myString& other);
+	void append(const myString& other);
 
-	void SetString(const char* data);
+	void setString(const char* data);
 
-	void SetSize(const size_t size);
+	void setSize(const int size);
 
-	void SetCapacity(const size_t size);
+	void setCapacity(const int size);
 
-	char* GetData() const;
+	char* getData() const;
 
-	const size_t Length() const;
+	const int length() const;
 
 	const char operator[](const int index) const;
 

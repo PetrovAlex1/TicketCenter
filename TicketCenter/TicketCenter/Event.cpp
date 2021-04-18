@@ -1,9 +1,9 @@
 #include "Event.h"
 
-void Event::Initialize(const myString& eventName, const Hall& hall)
+void Event::initialize(const myString& eventName, const Hall& hall)
 {
-	this->SetEventName(eventName);
-	this->SetHall(hall);
+	this->setEventName(eventName);
+	this->setHall(hall);
 }
 
 Event::Event()
@@ -11,27 +11,27 @@ Event::Event()
 	this->freeseats = 0;
 }
 
-void Event::SetEventName(const myString& eventName)
+void Event::setEventName(const myString& eventName)
 {
 	this->eventName = eventName;
 }
 
-void Event::SetHall(const Hall& hall)
+void Event::setHall(const Hall& hall)
 {
 	this->hall = hall;
 }
 
-myString Event::GetEventName() const
+myString Event::getEventName() const
 {
 	return this->eventName;
 }
 
-Hall Event::GetHall() const
+Hall Event::getHall() const
 {
 	return this->hall;
 }
 
-int Event::GetFreeSeats() const
+int Event::getFreeSeats() const
 {
 	return this->freeseats;
 }
