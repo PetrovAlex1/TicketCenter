@@ -22,14 +22,8 @@ private:
 		}
 	}
 
-	void resize(size_t newSize)
+	void resize()
 	{
-		if (newSize < 0)
-		{
-			std::cout << "Invalid size!" << std::endl;
-			return;
-		}
-
 		this->capacity *= 2;
 
 		T* newData = new T[capacity];
@@ -39,7 +33,6 @@ private:
 			newData[i] = this->data[i];
 		}
 
-		this->size = newSize;
 		delete[] this->data;
 		this->data = newData;
 	}
@@ -64,28 +57,72 @@ public:
 		this->copy(other);
 	}
 
-	size_t Length()
+	size_t Size()
 	{
 		return this->size;
 	}
 
-	void Add(T element)
+	int CountWhiteSpaces(const myString& str)
+	{
+		int countWS = 0;
+		int i = 0;
+
+		while (str[i] != '\0')
+		{
+			if (str[i] == ' ')
+			{
+				countWS++;
+			}
+
+			i++;
+		}
+
+		return countWS;
+	}
+
+	myVector& Split(myString& str)
+	{
+		int i = 0;
+		int countWS = CountWhiteSpaces(str);//count whitespaces
+
+		this->destroy();
+		this->data = new myString[countWS + 1];
+		int j = 0;
+
+		for (i = 0; i < countWS + 1; i++)
+		{
+			myString currentString;
+
+			while (str[j] != ' ')
+			{
+				currentString.Append(str[j]);
+				j++;
+			}
+
+			this->Add(currentString);
+			j++;
+		}
+
+		return *this;
+	}
+
+	void Add(const T& element)
 	{
 		if (this->size + 1 >= this->capacity)
 		{
-			this->resize(this->size + 1);
+			this->resize();
 		}
 
 		this->data[this->size] = element;
 		this->size++;
 	}
 
-	const T operator[](const int index) const
+	const T& operator[](const int index) const
 	{
 		return this->data[index];
 	}
 
-	T operator[](const int index)
+	T& operator[](const int index)
 	{
 		return this->data[index];
 	}
@@ -99,6 +136,26 @@ public:
 		}
 
 		return *this;
+	}
+
+	myVector& operator+=(const myVector& other)
+	{
+		int otherSize = other.size;
+
+		for (int i = 0; i < otherSize; i++)
+		{
+			this->Add(other.data[i]);
+		}
+
+		return *this;
+	}
+
+	myVector operator+(const myVector& other)
+	{
+		myVector<T> result(*this);
+		result += other;
+
+		return result;
 	}
 
 	void Print()

@@ -1,13 +1,16 @@
 #pragma once
 #include <iostream>
+#include "myString.h"
 
 class Hall
 {
 private:
-	char* hallName;
+	myString hallName;
 	int totalSeats;
 	int rows;
 	int seatsOnRow;
+	int** matrixHall;
+
 public:
 
 	Hall();
@@ -16,23 +19,25 @@ public:
 
 	void Print();
 
-	void Initialize(const char* hallName, const int totalSeats, const int rows, const int seatsOnRows);
+	void Initialize(const myString& hallName, const int totalSeats, const int rows, const int seatsOnRows);
 
-	void setHallName(const char* hallName);
+	void CreateMatrix(); 
 
-	void setTotalSeats(const int totalSets);
+	void SetHallName(const myString& hallName);
 
-	void setRows(const int rows);
+	void SetTotalSeats(const int totalSets);
 
-	void setSeatsOnRow(const int seatsOnRow);
+	void SetRows(const int rows);
 
-	char* getHallName() const;
+	void SetSeatsOnRow(const int seatsOnRow);
 
-	int getTotalSeats() const;
+	myString GetHallName() const;
 
-	int getRows() const;
+	int GetTotalSeats() const;
 
-	int getSeatsOnRow() const;
+	int GetRows() const;
+
+	int GetSeatsOnRow() const;
 
 	Hall& operator=(const Hall& other);
 
