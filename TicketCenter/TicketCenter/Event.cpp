@@ -1,9 +1,10 @@
 #include "Event.h"
 
-void Event::initialize(const myString& eventName, const Hall& hall)
+void Event::initialize(const myString& eventName, const Hall& hall, const Date& date)
 {
 	this->setEventName(eventName);
 	this->setHall(hall);
+	this->setDate(date);
 }
 
 Event::Event()
@@ -19,6 +20,11 @@ void Event::setEventName(const myString& eventName)
 void Event::setHall(const Hall& hall)
 {
 	this->hall = hall;
+}
+
+void Event::setDate(const Date& date)
+{
+	this->date = date;
 }
 
 myString Event::getEventName() const

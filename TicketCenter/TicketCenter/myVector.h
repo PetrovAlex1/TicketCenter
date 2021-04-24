@@ -62,7 +62,7 @@ public:
 		return this->size;
 	}
 
-	int countWhiteSpaces(const myString& str)
+	/*int countWhiteSpaces(const myString& str)
 	{
 		int countWS = 0;
 		int i = 0;
@@ -78,33 +78,33 @@ public:
 		}
 
 		return countWS;
-	}
+	}*/
 
-	myVector& split(myString& str)
-	{
-		int i = 0;
-		int countWS = countWhiteSpaces(str);//count whitespaces
+	//myVector& split(myString& str)
+	//{
+	//	int i = 0;
+	//	int countWS = countWhiteSpaces(str);//count whitespaces
 
-		this->destroy();
-		this->data = new myString[countWS + 1];
-		int j = 0;
+	//	this->destroy();
+	//	this->data = new myString[countWS + 1];
+	//	int j = 0;
 
-		for (i = 0; i < countWS + 1; i++)
-		{
-			myString currentString;
+	//	for (i = 0; i < countWS + 1; i++)
+	//	{
+	//		myString currentString;
 
-			while (str[j] != ' ' && str[j] != '\0')
-			{
-				currentString.append(str[j]);
-				j++;
-			}
+	//		while (str[j] != ' ' && str[j] != '\0')
+	//		{
+	//			currentString.append(str[j]);
+	//			j++;
+	//		}
 
-			this->add(currentString);
-			j++;
-		}
+	//		this->add(currentString);
+	//		j++;
+	//	}
 
-		return *this;
-	}
+	//	return *this;
+	//}
 
 	void add(const T& element)
 	{
@@ -127,7 +127,7 @@ public:
 		return this->data[index];
 	}
 
-	myVector operator=(const myVector& other)
+	myVector& operator=(const myVector& other)
 	{
 		if (this != &other)
 		{

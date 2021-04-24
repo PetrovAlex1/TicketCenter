@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include "myVector.h"
 
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS
@@ -55,6 +56,8 @@ public:
 
 	~myString();
 
+	myVector<myString> splitBy(const char& symbol);
+
 	void append(const char symbol);
 
 	void append(const char* data);
@@ -77,7 +80,12 @@ public:
 
 	myString& operator=(const myString& other);
 
+	bool operator==(const myString& other);
+
+	bool operator==(const char* other);
+
 	friend std::ostream& operator<<(std::ostream& out, const myString& str);
 
 	friend std::istream& operator>>(std::istream& in, myString& str);
 };
+

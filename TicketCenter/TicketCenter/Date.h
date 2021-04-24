@@ -23,8 +23,11 @@ private:
 	int day;
 	Month month;
 	int year;
+	bool yearIsLeap;
+	bool dateIsValid;
 
-	bool isLeap;
+	bool validateDate();
+	void checkYearLeap();
 
 public:
 
@@ -41,4 +44,6 @@ public:
 	void setMonth(const int& month);
 
 	void setYear(const int& year);
+
+	Date& operator=(const Date& other);
 };

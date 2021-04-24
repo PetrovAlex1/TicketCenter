@@ -7,6 +7,24 @@
 #endif
 #pragma warning(disable:4996)
 
+int countParts(const myString& str, const char& symbol)
+{
+	int countWS = 0;
+	int i = 0;
+
+	while (str[i] != '\0')
+	{
+		if (str[i] == symbol)
+		{
+			countWS++;
+		}
+
+		i++;
+	}
+
+	return countWS;
+}
+
 myString::myString()
 {
 	this->data = nullptr;
@@ -22,6 +40,32 @@ myString::myString(const myString& other)
 myString::~myString()
 {
 	this->destroy();
+}
+
+myVector<myString> myString::splitBy(const char& symbol)
+{
+	int i = 0;
+	int countWS = countParts(*this, symbol);//count whitespaces
+
+	myVector<myString> vect;
+	int j = 0;
+
+	for (i = 0; i < countWS + 1; i++)
+	{
+		myString currentString;
+
+		while (this->data[j] != symbol && this->data[j] != '\0')
+		{
+			currentString.append(this->data[j]);
+			j++;
+		}
+
+		vect.add(currentString);
+		j++;
+	}
+
+
+	return vect;
 }
 
 void myString::append(const char symbol)
@@ -146,6 +190,32 @@ myString& myString::operator=(const myString& other)
 	}
 
 	return *this;
+}
+
+bool myString::operator==(const myString& other)
+{
+	for (int i = 0; i < this->size; i++)
+	{
+		if (this->data[i] != other.data[i])
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool myString::operator==(const char* other)
+{
+	for (int i = 0; i < this->size; i++)
+	{
+		if (this->data[i] != other[i])
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 std::ostream& operator<<(std::ostream& out, const myString& str)

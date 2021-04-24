@@ -1,10 +1,95 @@
 #include "Date.h"
+#include "myVector.h"
+#include "myString.h"
+
+int stringToInt(myString& str)
+{
+	int result = 0;
+	int length = str.length();
+
+	for (int i = 0; i < length; i++)
+	{
+		int currentDigit = str[i] - 48;
+		result = currentDigit + result * 10;
+	}
+
+	return result;
+}
+
+bool Date::validateDate()
+{
+	bool result = false;
+
+	if ((int)this->month == 0 || //For months with 31 days
+		(int)this->month == 2 ||
+		(int)this->month == 4 ||
+		(int)this->month == 6 ||
+		(int)this->month == 7 ||
+		(int)this->month == 9 ||
+		(int)this->month == 11)
+	{
+		if (this->day > 0 && this->day <= 31)
+		{
+			result = true;
+		}
+	}
+	else if ((int)this->month == 3 || //For months with 30 days
+		(int)this->month == 5 ||
+		(int)this->month == 8 ||
+		(int)this->month == 10)
+	{
+		if (this->day > 0 && this->day <= 30)
+		{
+			result = true;
+		}
+	}
+	else
+	{
+		if (this->yearIsLeap)
+		{
+			if (this->day > 0 && this->day < 29)
+			{
+				result = true;
+			}
+		}
+		else //For February
+		{
+			if (this->day > 0 && this->day < 28)
+			{
+				result = true;
+			}
+		}
+	}
+
+	return result;
+}
+
+void Date::checkYearLeap()
+{
+	this->yearIsLeap = false;
+
+	int thirdDigit = (this->year % 100) / 10;
+	int fourthDigit = this->year % 10;
+
+	if (thirdDigit == 0 && fourthDigit == 0)
+	{
+		if (this->year % 400 == 0)
+		{
+			this->yearIsLeap = true;
+		}
+	}
+	else if (year % 4 == 0)
+	{
+		this->yearIsLeap = true;
+	}
+}
 
 Date::Date()
 {
 	this->day = 1;
 	this->month = Month::January;
 	this->year = 2021;
+	this->yearIsLeap = false;
 }
 
 Date::Date(const int& day, const int& month, const int& year)
@@ -12,20 +97,37 @@ Date::Date(const int& day, const int& month, const int& year)
 	this->setDay(day);
 	this->setMonth(month);
 	this->setYear(year);
+	this->dateIsValid = this->validateDate();
+
+	if (!this->dateIsValid)
+	{
+		std::cout << "Date is invalid!" << std::endl;
+	}
 }
 
 void Date::setDate(const char* date)
 {
-	int j = 0;
+	myString str;
+	str.setString(date);
+	myVector<myString> arguments;
+	arguments = str.splitBy('.');
 
-	for (int i = 0; i < 3; i++)
+	this->setDay(stringToInt(arguments[0]));
+	this->setMonth(stringToInt(arguments[1]));
+	this->setYear(stringToInt(arguments[2]));
+	this->dateIsValid = this->validateDate();
+
+	if (!this->dateIsValid)
 	{
-		char currentData[2];
+		std::cout << "Date is invalid!" << std::endl;
+	}
+}
 
-		while (date[j] != '.')
-		{
-
-		}
+void const Date::showDate() const
+{
+	if (this->dateIsValid)
+	{
+		std::cout << this->day << "." << (int)this->month + 1 << "." << this->year;
 	}
 }
 
@@ -107,6 +209,14 @@ void Date::setYear(const int& year)
 
 	this->year = year;
 }
+
+Date& Date::operator=(const Date& other)
+{
+	this->day = other.day;
+	this->month = other.month;
+	this->year = other.year;
+}
+
 
 
 
