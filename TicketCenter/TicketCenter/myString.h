@@ -35,9 +35,7 @@ private:
 			this->capacity += 7;
 		}
 
-		int newCapcacity = this->capacity;
-		char* newData = new char[newCapcacity + 1];
-
+		char* newData = new char[this->capacity + 1];
 		strcpy(newData, this->data);
 
 		this->destroy();

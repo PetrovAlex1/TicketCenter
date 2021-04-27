@@ -20,30 +20,33 @@ enum class Month
 class Date
 {
 private:
-	int day;
+	unsigned int day;
 	Month month;
-	int year;
-	bool yearIsLeap;
-	bool dateIsValid;
-
-	bool validateDate();
-	void checkYearLeap();
+	unsigned int year;
 
 public:
 
 	Date();
 
-	Date(const int& day, const int& month, const int& year);
+	Date(const unsigned int& day, const unsigned int& month, const unsigned int& year);
 
 	void setDate(const char* date);
 
 	void const showDate() const;
 
-	void setDay(const int& day);
+	void setDay(const unsigned int& day);
 
-	void setMonth(const int& month);
+	void setMonth(const unsigned int& month);
 
-	void setYear(const int& year);
+	void setYear(const unsigned int& year);
 
-	Date& operator=(const Date& other);
+	unsigned int getDay() const;
+
+	unsigned int getMonth() const;
+
+	unsigned int getYear() const;
+
+	bool checkYearLeap() const;
+
+	bool validateDate() const;
 };

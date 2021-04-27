@@ -57,54 +57,10 @@ public:
 		this->copy(other);
 	}
 
-	int length()
+	int length() const
 	{
-		return this->size;
+		return size;
 	}
-
-	/*int countWhiteSpaces(const myString& str)
-	{
-		int countWS = 0;
-		int i = 0;
-
-		while (str[i] != '\0')
-		{
-			if (str[i] == ' ')
-			{
-				countWS++;
-			}
-
-			i++;
-		}
-
-		return countWS;
-	}*/
-
-	//myVector& split(myString& str)
-	//{
-	//	int i = 0;
-	//	int countWS = countWhiteSpaces(str);//count whitespaces
-
-	//	this->destroy();
-	//	this->data = new myString[countWS + 1];
-	//	int j = 0;
-
-	//	for (i = 0; i < countWS + 1; i++)
-	//	{
-	//		myString currentString;
-
-	//		while (str[j] != ' ' && str[j] != '\0')
-	//		{
-	//			currentString.append(str[j]);
-	//			j++;
-	//		}
-
-	//		this->add(currentString);
-	//		j++;
-	//	}
-
-	//	return *this;
-	//}
 
 	void add(const T& element)
 	{
@@ -113,8 +69,7 @@ public:
 			this->resize();
 		}
 
-		this->data[this->size] = element;
-		this->size++;
+		this->data[this->size++] = element;
 	}
 
 	const T& operator[](const int index) const

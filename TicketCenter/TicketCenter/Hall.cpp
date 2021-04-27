@@ -2,49 +2,67 @@
 
 Hall::Hall()
 {
-	this->totalSeats = 0;
-	this->rows = 0;
-	this->seatsOnRow = 0;
+	totalSeats = 4;
+	rows = 2;
+	seatsOnRow = 2;
+	createMatrix();
+}
+
+Hall::Hall(const myString& hallName, const unsigned int totalSeats, const unsigned int rows, const unsigned int seatsOnRows)
+{
+	setHallName(hallName);
+	setTotalSeats(totalSeats);
+	setRows(rows);
+	setSeatsOnRow(seatsOnRows);
+	createMatrix();
 }
 
 Hall::~Hall()
 {
 	for (int i = 0; i < this->rows; i++)
 	{
-		delete[] this->matrixHall[i];
+		delete[] matrixHall[i];
 	}
 
-	delete[] this->matrixHall;
+	delete[] matrixHall;
 }
 
 void Hall::print()
 {
-	std::cout << this->getHallName() << " with " << this->getTotalSeats() << " with rows " << this->getRows() << " with seats on a rows " << this->getSeatsOnRow() << std::endl;
+	std::cout << getHallName() << " with " << getTotalSeats() << " with rows " << getRows() << " with seats on a rows " << getSeatsOnRow() << std::endl;
 }
 
-void Hall::initialize(const myString& hallName, const int totalSeats, const int rows, const int seatsOnRows)
+void Hall::createMatrix() //private
 {
-	this->setHallName(hallName);
-	this->setTotalSeats(totalSeats);
-	this->setRows(rows);
-	this->setSeatsOnRow(seatsOnRows);
-	this->createMatrix();
-}
+	matrixHall = new int* [rows];
 
-void Hall::createMatrix()
-{
-	this->matrixHall = new int* [this->rows];
-
-	for (int i = 0; i < this->rows; i++)
+	for (int i = 0; i < rows; i++)
 	{
-		this->matrixHall[i] = new int[this->seatsOnRow];
+		matrixHall[i] = new int[seatsOnRow];
 	}
 
-	for (int i = 0; i < this->rows; i++)
+	for (int i = 0; i < rows; i++)
 	{
-		for (int j = 0; j < this->seatsOnRow; j++)
+		for (int j = 0; j < seatsOnRow; j++)
 		{
-			this->matrixHall[i][j] = 0;
+			matrixHall[i][j] = 0;
+		}
+	}
+}
+
+void Hall::copyMatrix(int** otherMatrix)
+{
+	this->~Hall();
+	createMatrix();
+
+	int rows = getRows();
+	int cols = getSeatsOnRow();
+
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < cols; j++)
+		{
+			matrixHall[i][j] = otherMatrix[i][j];
 		}
 	}
 }
@@ -54,61 +72,87 @@ void Hall::setHallName(const myString& hallName)
 	this->hallName = hallName;
 }
 
-void Hall::setTotalSeats(const int totalSeats)
+void Hall::setTotalSeats(const unsigned int totalSeats)
 {
 	this->totalSeats = totalSeats;
 }
 
-void Hall::setRows(const int rows)
+void Hall::setRows(const unsigned int rows)
 {
 	this->rows = rows;
 }
 
-void Hall::setSeatsOnRow(const int seatsOnRow)
+void Hall::setSeatsOnRow(const unsigned int seatsOnRow)
 {
 	this->seatsOnRow = seatsOnRow;
 }
 
-myString Hall::getHallName() const
+void Hall::showMatrix()
 {
-	return this->hallName;
+	int rows = getRows();
+	int cols = getSeatsOnRow();
+
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < cols; j++)
+		{
+			std::cout << matrixHall[i][j] << " ";
+		}
+
+		std::cout << std::endl;
+	}
 }
 
-int Hall::getTotalSeats() const
+void Hall::changeSeatBehavior(const unsigned int& row, const unsigned int& seat, const unsigned int& code)
 {
-	return this->totalSeats;
+	if (row > rows || seat > seatsOnRow)
+	{
+		std::cout << "Invalid seat!" << std::endl;
+	}
+	if (code < 0 || code > 2)
+	{
+		std::cout << "Code is invalid!" << std::endl;
+	}
+
+	matrixHall[row][seat] = code;
 }
 
-int Hall::getRows() const
+const myString& Hall::getHallName() const
 {
-	return this->rows;
+	return hallName;
 }
 
-int Hall::getSeatsOnRow() const
+unsigned int Hall::getTotalSeats() const
 {
-	return this->seatsOnRow;
+	return totalSeats;
+}
+
+unsigned int Hall::getRows() const
+{
+	return rows;
+}
+
+unsigned int Hall::getSeatsOnRow() const
+{
+	return seatsOnRow;
+}
+
+int** Hall::getMatrixHall() const
+{
+	return matrixHall;
 }
 
 Hall& Hall::operator=(const Hall& other)
 {
 	if (this != &other)
 	{
-		this->rows = 0;
-		this->seatsOnRow = 0;
-		this->totalSeats = 0;
+		setHallName(other.getHallName());
+		setTotalSeats(other.getTotalSeats());
+		setRows(other.getRows());
+		setSeatsOnRow(other.getSeatsOnRow());
+		copyMatrix(other.getMatrixHall());
 	}
-
-	this->setHallName(other.getHallName());
-	this->setTotalSeats(other.getTotalSeats());
-	this->setRows(other.getRows());
-	this->setSeatsOnRow(other.getSeatsOnRow());
 
 	return *this;
 }
 
-std::ostream& operator<<(std::ostream& out, const Hall& hall)
-{
-	out << "Hall name " << hall.getHallName();
-
-	return out;
-}

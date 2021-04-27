@@ -10,12 +10,12 @@ private:
 	myString eventName;
 	Hall hall;
 	Date date;
-	int freeseats;
+	unsigned int freeseats;
 public:
 
 	Event();
 
-	void initialize(const myString& eventName, const Hall& hall, const Date& date);
+	Event(const myString& eventName, const Hall& hall, const Date& date);
 
 	//void buyTicket(const int& row, const int& seat, const Date& date);
 
@@ -29,10 +29,10 @@ public:
 
 	void setDate(const Date& date);
 
-	myString getEventName() const;
+	const myString& getEventName() const;
 
-	Hall getHall() const;
+	const Hall& getHall() const;
 
-	int getFreeSeats() const;
+	unsigned int getFreeSeats() const;
 
 };

@@ -6,40 +6,46 @@ class Hall
 {
 private:
 	myString hallName;
-	int totalSeats;
-	int rows;
-	int seatsOnRow;
+	unsigned int totalSeats;//TODO unsigned int
+	unsigned int rows;
+	unsigned int seatsOnRow;
 	int** matrixHall;
 
+	void createMatrix();
+	void copyMatrix(int** otherMatrix);
 public:
 
 	Hall();
+
+	Hall(const myString& hallName, const unsigned int totalSeats, const unsigned int rows, const unsigned int seatsOnRows);
 
 	~Hall();
 
 	void print();
 
-	void initialize(const myString& hallName, const int totalSeats, const int rows, const int seatsOnRows);
+	void showMatrix();
 
-	void createMatrix(); 
+	void changeSeatBehavior(const unsigned int& row, const unsigned int& seat, const unsigned int& code);
 
 	void setHallName(const myString& hallName);
 
-	void setTotalSeats(const int totalSets);
+	void setTotalSeats(const unsigned int totalSets);
 
-	void setRows(const int rows);
+	void setRows(const unsigned int rows);
 
-	void setSeatsOnRow(const int seatsOnRow);
+	void setSeatsOnRow(const unsigned int seatsOnRow);
 
-	myString getHallName() const;
+	const myString& getHallName() const;
 
-	int getTotalSeats() const;
+	unsigned int getTotalSeats() const;
 
-	int getRows() const;
+	unsigned int getRows() const;
 
-	int getSeatsOnRow() const;
+	unsigned int getSeatsOnRow() const;
+
+	int** getMatrixHall() const;
 
 	Hall& operator=(const Hall& other);
 
-	friend std::ostream& operator<<(std::ostream& out, const Hall& hall);
+
 };

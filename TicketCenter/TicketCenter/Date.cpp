@@ -9,54 +9,54 @@ int stringToInt(myString& str)
 
 	for (int i = 0; i < length; i++)
 	{
-		int currentDigit = str[i] - 48;
+		int currentDigit = str[i] - '0';
 		result = currentDigit + result * 10;
 	}
 
 	return result;
 }
 
-bool Date::validateDate()
+bool Date::validateDate() const
 {
 	bool result = false;
 
-	if ((int)this->month == 0 || //For months with 31 days
-		(int)this->month == 2 ||
-		(int)this->month == 4 ||
-		(int)this->month == 6 ||
-		(int)this->month == 7 ||
-		(int)this->month == 9 ||
-		(int)this->month == 11)
+	if (month == Month::January || //For months with 31 days
+		month == Month::March ||
+		month == Month::May ||
+		month == Month::July ||
+		month == Month::August ||
+		month == Month::October ||
+		month == Month::December)
 	{
 		if (this->day > 0 && this->day <= 31)
 		{
-			result = true;
+			return true;
 		}
 	}
-	else if ((int)this->month == 3 || //For months with 30 days
-		(int)this->month == 5 ||
-		(int)this->month == 8 ||
-		(int)this->month == 10)
+	else if (this->month == Month::April || //For months with 30 days
+		month == Month::June ||
+		month == Month::September ||
+		month == Month::November)
 	{
-		if (this->day > 0 && this->day <= 30)
+		if (day > 0 && day <= 30)
 		{
-			result = true;
+			return true;
 		}
 	}
 	else
 	{
-		if (this->yearIsLeap)
+		if (checkYearLeap())
 		{
-			if (this->day > 0 && this->day < 29)
+			if (day > 0 && day <= 29)
 			{
-				result = true;
+				return true;
 			}
 		}
 		else //For February
 		{
-			if (this->day > 0 && this->day < 28)
+			if (day > 0 && day <= 28)
 			{
-				result = true;
+				return true;
 			}
 		}
 	}
@@ -64,10 +64,8 @@ bool Date::validateDate()
 	return result;
 }
 
-void Date::checkYearLeap()
+bool Date::checkYearLeap() const
 {
-	this->yearIsLeap = false;
-
 	int thirdDigit = (this->year % 100) / 10;
 	int fourthDigit = this->year % 10;
 
@@ -75,33 +73,33 @@ void Date::checkYearLeap()
 	{
 		if (this->year % 400 == 0)
 		{
-			this->yearIsLeap = true;
+			return true;
 		}
 	}
 	else if (year % 4 == 0)
 	{
-		this->yearIsLeap = true;
+		return true;
 	}
+
+	return false;
 }
 
 Date::Date()
 {
-	this->day = 1;
-	this->month = Month::January;
-	this->year = 2021;
-	this->yearIsLeap = false;
+	day = 1;
+	month = Month::January;
+	year = 0;
 }
 
-Date::Date(const int& day, const int& month, const int& year)
+Date::Date(const unsigned int& day, const unsigned int& month, const unsigned int& year)
 {
-	this->setDay(day);
-	this->setMonth(month);
-	this->setYear(year);
-	this->dateIsValid = this->validateDate();
+	setDay(day);
+	setMonth(month);
+	setYear(year);
 
-	if (!this->dateIsValid)
+	if (!validateDate())
 	{
-		std::cout << "Date is invalid!" << std::endl;
+		std::cout << "Date is invalid!" << std::endl;//TODO add error message
 	}
 }
 
@@ -110,14 +108,13 @@ void Date::setDate(const char* date)
 	myString str;
 	str.setString(date);
 	myVector<myString> arguments;
-	arguments = str.splitBy('.');
+	arguments = str.splitBy('-');//year-month-day
 
-	this->setDay(stringToInt(arguments[0]));
-	this->setMonth(stringToInt(arguments[1]));
-	this->setYear(stringToInt(arguments[2]));
-	this->dateIsValid = this->validateDate();
+	setDay(stringToInt(arguments[0]));
+	setMonth(stringToInt(arguments[1]));
+	setYear(stringToInt(arguments[2]));
 
-	if (!this->dateIsValid)
+	if (!validateDate())
 	{
 		std::cout << "Date is invalid!" << std::endl;
 	}
@@ -125,15 +122,15 @@ void Date::setDate(const char* date)
 
 void const Date::showDate() const
 {
-	if (this->dateIsValid)
+	if (validateDate())
 	{
-		std::cout << this->day << "." << (int)this->month + 1 << "." << this->year;
+		std::cout << year << "-" << (int)month + 1 << "-" << day << std::endl;
 	}
 }
 
-void Date::setDay(const int& day)
+void Date::setDay(const unsigned int& day)
 {
-	if (day < 1 || day > 31)
+	if (day > 31)
 	{
 		std::cout << "Day is invalid!" << std::endl;
 		return;
@@ -142,55 +139,55 @@ void Date::setDay(const int& day)
 	this->day = day;
 }
 
-void Date::setMonth(const int& month)
+void Date::setMonth(const unsigned int& _month)
 {
-	if (month == 1)
+	if (_month == 1)
 	{
-		this->month = Month::January;
+		month = Month::January;
 	}
-	else if (month == 2)
+	else if (_month == 2)
 	{
-		this->month = Month::February;
+		month = Month::February;
 	}
-	else if (month == 3)
+	else if (_month == 3)
 	{
-		this->month = Month::March;
+		month = Month::March;
 	}
-	else if (month == 4)
+	else if (_month == 4)
 	{
-		this->month = Month::April;
+		month = Month::April;
 	}
-	else if (month == 5)
+	else if (_month == 5)
 	{
-		this->month = Month::May;
+		month = Month::May;
 	}
-	else if (month == 6)
+	else if (_month == 6)
 	{
-		this->month = Month::June;
+		month = Month::June;
 	}
-	else if (month == 7)
+	else if (_month == 7)
 	{
-		this->month = Month::July;
+		month = Month::July;
 	}
-	else if (month == 8)
+	else if (_month == 8)
 	{
-		this->month = Month::August;
+		month = Month::August;
 	}
-	else if (month == 9)
+	else if (_month == 9)
 	{
-		this->month = Month::September;
+		month = Month::September;
 	}
-	else if (month == 10)
+	else if (_month == 10)
 	{
-		this->month = Month::October;
+		month = Month::October;
 	}
-	else if (month == 11)
+	else if (_month == 11)
 	{
-		this->month = Month::November;
+		month = Month::November;
 	}
-	else if (month == 12)
+	else if (_month == 12)
 	{
-		this->month = Month::December;
+		month = Month::December;
 	}
 	else
 	{
@@ -199,9 +196,9 @@ void Date::setMonth(const int& month)
 	}
 }
 
-void Date::setYear(const int& year)
+void Date::setYear(const unsigned int& year)
 {
-	if (year < 2021)
+	if (year < 0)//TODO change validation
 	{
 		std::cout << "Year is invalid!" << std::endl;
 		return;
@@ -210,12 +207,21 @@ void Date::setYear(const int& year)
 	this->year = year;
 }
 
-Date& Date::operator=(const Date& other)
+unsigned int Date::getDay() const
 {
-	this->day = other.day;
-	this->month = other.month;
-	this->year = other.year;
+	return day;
 }
+
+unsigned int Date::getMonth() const
+{
+	return (int)month + 1;
+}
+
+unsigned int Date::getYear() const
+{
+	return year;
+}
+
 
 
 
