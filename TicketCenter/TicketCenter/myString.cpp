@@ -12,7 +12,7 @@ int countParts(const myString& str, const char& symbol)
 	int countWS = 0;
 	int i = 0;
 
-	while (str[i] != '\0')
+	while (i != str.length())
 	{
 		if (str[i] == symbol)
 		{
@@ -66,6 +66,85 @@ myVector<myString> myString::splitBy(const char& symbol)
 
 
 	return vect;
+}
+
+unsigned int myString::toInt()
+{
+	int result = 0;
+
+	for (int i = 0; i < size && (data[i] >= '0' && data[i] <= '9'); i++)
+	{
+		int currentDigit = data[i] - '0';
+		result = currentDigit + result * 10;
+	}
+
+	return result;
+}
+
+bool myString::isFormLetters() const
+{
+	for (int i = 0; i < size; i++)
+	{
+		if (!(data[i] >= 'a' && data[i] <= 'z') && !(data[i] >= 'A' && data[i] <= 'Z'))
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+void myString::fromInt(unsigned int& number)
+{
+	int counter = 0;
+	char digits[8];
+
+	while (number != 0)
+	{
+		int currentDigit = number % 10;
+		number /= 10;
+		digits[counter] = currentDigit;
+		counter++;
+	}
+
+	for (int i = counter - 1; i >= 0; --i)
+	{
+		switch (digits[i])
+		{
+		case 0:
+			append('0');
+			break;
+		case 1:
+			append('1');
+			break;
+		case 2:
+			append('2');
+			break;
+		case 3:
+			append('3');
+			break;
+		case 4:
+			append('4');
+			break;
+		case 5:
+			append('5');
+			break;
+		case 6:
+			append('6');
+			break;
+		case 7:
+			append('7');
+			break;
+		case 8:
+			append('8');
+			break;
+		case 9:
+			append('9');
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 void myString::append(const char symbol)
@@ -192,7 +271,7 @@ myString& myString::operator=(const myString& other)
 	return *this;
 }
 
-bool myString::operator==(const myString& other)
+bool myString::operator==(const myString& other) const
 {
 	for (int i = 0; i < this->size; i++)
 	{
@@ -205,7 +284,7 @@ bool myString::operator==(const myString& other)
 	return true;
 }
 
-bool myString::operator==(const char* other)
+bool myString::operator==(const char* other) const
 {
 	for (int i = 0; i < this->size; i++)
 	{
@@ -226,8 +305,6 @@ std::ostream& operator<<(std::ostream& out, const myString& str)
 	{
 		out << str.data[i];
 	}
-
-	out << std::endl;
 
 	return out;
 }

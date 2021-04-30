@@ -2,20 +2,6 @@
 #include "myVector.h"
 #include "myString.h"
 
-int stringToInt(myString& str)
-{
-	int result = 0;
-	int length = str.length();
-
-	for (int i = 0; i < length; i++)
-	{
-		int currentDigit = str[i] - '0';
-		result = currentDigit + result * 10;
-	}
-
-	return result;
-}
-
 bool Date::validateDate() const
 {
 	bool result = false;
@@ -100,23 +86,23 @@ Date::Date(const unsigned int& day, const unsigned int& month, const unsigned in
 	if (!validateDate())
 	{
 		std::cout << "Date is invalid!" << std::endl;//TODO add error message
+		exit(0);
 	}
 }
 
-void Date::setDate(const char* date)
+void Date::setDate(myString& date)
 {
-	myString str;
-	str.setString(date);
 	myVector<myString> arguments;
-	arguments = str.splitBy('-');//year-month-day
+	arguments = date.splitBy('-');
 
-	setDay(stringToInt(arguments[0]));
-	setMonth(stringToInt(arguments[1]));
-	setYear(stringToInt(arguments[2]));
+	setDay(arguments[2].toInt());
+	setMonth(arguments[1].toInt());
+	setYear(arguments[0].toInt());
 
 	if (!validateDate())
 	{
 		std::cout << "Date is invalid!" << std::endl;
+		exit(0);
 	}
 }
 
@@ -133,7 +119,7 @@ void Date::setDay(const unsigned int& day)
 	if (day > 31)
 	{
 		std::cout << "Day is invalid!" << std::endl;
-		return;
+		exit(0);
 	}
 
 	this->day = day;
@@ -192,7 +178,7 @@ void Date::setMonth(const unsigned int& _month)
 	else
 	{
 		std::cout << "Invalid month!" << std::endl;
-		return;
+		exit(0);
 	}
 }
 
@@ -201,7 +187,7 @@ void Date::setYear(const unsigned int& year)
 	if (year < 0)//TODO change validation
 	{
 		std::cout << "Year is invalid!" << std::endl;
-		return;
+		exit(0);
 	}
 
 	this->year = year;
@@ -222,8 +208,77 @@ unsigned int Date::getYear() const
 	return year;
 }
 
+bool Date::operator==(const Date& otherDate) const
+{
+	if (day == otherDate.day
+		&& month == otherDate.month
+		&& year == otherDate.year)
+	{
+		return true;
+	}
 
+	return false;
+}
 
+bool Date::operator<=(const Date& otherDate) const
+{
+	if (year == otherDate.getYear())
+	{
+		if (((int)month + 1) == otherDate.getMonth())
+		{
+			if (day == otherDate.getDay())
+			{
+				return true;
+			}
+			else if (day < otherDate.getDay())
+			{
+				return true;
+			}
+		}
+		else if (((int)month + 1) < otherDate.getMonth())
+		{
+			return true;
+		}
+	}
+	else if (year < otherDate.getYear())
+	{
+		return true;
+	}
 
+	return false;
+}
 
+bool Date::operator>=(const Date& otherDate) const
+{
+	if (year == otherDate.getYear())
+	{
+		if (((int)month + 1) == otherDate.getMonth())
+		{
+			if (day == otherDate.getDay())
+			{
+				return true;
+			}
+			else if (day > otherDate.getDay())
+			{
+				return true;
+			}
+		}
+		else if (((int)month + 1) > otherDate.getMonth())
+		{
+			return true;
+		}
+	}
+	else if (year > otherDate.getYear())
+	{
+		return true;
+	}
 
+	return false;
+}
+
+std::ostream& operator<<(std::ostream& out, const Date& date)
+{
+	out << date.getYear() << "-" << date.getMonth() << "-" << date.getDay();
+
+	return out;
+}

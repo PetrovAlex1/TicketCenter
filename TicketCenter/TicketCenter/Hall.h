@@ -12,7 +12,7 @@ private:
 	int** matrixHall;
 
 	void createMatrix();
-	void copyMatrix(int** otherMatrix);
+	void copyMatrix(int** otherMatrix, const int& previousRows);
 public:
 
 	Hall();
@@ -23,7 +23,7 @@ public:
 
 	void print();
 
-	void showMatrix();
+	void showMatrix() const;
 
 	void changeSeatBehavior(const unsigned int& row, const unsigned int& seat, const unsigned int& code);
 
@@ -47,5 +47,6 @@ public:
 
 	Hall& operator=(const Hall& other);
 
+	friend std::ostream& operator<<(std::ostream& out, const Hall& hall);
 
 };
