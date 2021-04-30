@@ -113,11 +113,11 @@ public:
 		return result;
 	}
 
-	void print()
+	void print() const
 	{
 		for (int i = 0; i < this->size; i++)
 		{
-			std::cout << this->data[i] << " ";
+			std::cout << this->data[i];
 		}
 
 		std::cout << std::endl;

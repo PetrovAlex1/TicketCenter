@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "myString.h"
 
 enum class Month
 {
@@ -30,7 +31,7 @@ public:
 
 	Date(const unsigned int& day, const unsigned int& month, const unsigned int& year);
 
-	void setDate(const char* date);
+	void setDate(myString& date);
 
 	void const showDate() const;
 
@@ -49,4 +50,12 @@ public:
 	bool checkYearLeap() const;
 
 	bool validateDate() const;
+
+	bool operator==(const Date& otherDate) const;
+
+	bool operator<=(const Date& otherDate) const;
+
+	bool operator>=(const Date& otherDate) const;
+
+	friend std::ostream& operator<<(std::ostream& out, const Date& date);
 };

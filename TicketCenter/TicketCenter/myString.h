@@ -17,7 +17,11 @@ private:
 
 	void copy(const myString& other)
 	{
-		delete[] this->data;
+		/*if (data != nullptr)
+		{
+			delete[] data;
+		}*/
+
 		this->data = new char[other.capacity];
 		this->size = other.size;
 		this->capacity = other.capacity;
@@ -56,6 +60,12 @@ public:
 
 	myVector<myString> splitBy(const char& symbol);
 
+	unsigned int toInt();
+
+	bool isFormLetters() const;
+
+	void fromInt(unsigned int& number);
+
 	void append(const char symbol);
 
 	void append(const char* data);
@@ -78,9 +88,9 @@ public:
 
 	myString& operator=(const myString& other);
 
-	bool operator==(const myString& other);
+	bool operator==(const myString& other) const;
 
-	bool operator==(const char* other);
+	bool operator==(const char* other) const;
 
 	friend std::ostream& operator<<(std::ostream& out, const myString& str);
 
