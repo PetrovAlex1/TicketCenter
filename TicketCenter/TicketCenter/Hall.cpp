@@ -1,3 +1,4 @@
+#include<fstream>
 #include "Hall.h"
 
 Hall::Hall()
@@ -187,6 +188,19 @@ Hall& Hall::operator=(const Hall& other)
 	}
 
 	return *this;
+}
+
+void Hall::writeOnfFile(const char* fileName)
+{
+	std::ofstream myFile(fileName, std::ios::app);
+
+	myFile << "Hall" << std::endl;
+	myFile << hallName << std::endl;
+	myFile << totalSeats << std::endl;
+	myFile << rows << std::endl;
+	myFile << seatsOnRow << std::endl;
+
+	myFile.close();
 }
 
 std::ostream& operator<<(std::ostream& out, const Hall& hall)

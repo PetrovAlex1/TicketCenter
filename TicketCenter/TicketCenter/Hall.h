@@ -49,4 +49,5 @@ public:
 
 	friend std::ostream& operator<<(std::ostream& out, const Hall& hall);
 
+	void writeOnfFile(const char* fileName);
 };

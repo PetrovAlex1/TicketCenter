@@ -1,3 +1,4 @@
+#include <fstream>
 #include "Event.h"
 
 myString Event::createCode(const myString& hallName, unsigned int& row, unsigned int& seat)
@@ -89,6 +90,7 @@ void Event::setEventName(const myString& eventName)
 void Event::setHall(const Hall& hall)
 {
 	this->hall = hall;
+	freeseats = hall.getTotalSeats();
 }
 
 void Event::setDate(const Date& date)
@@ -124,6 +126,34 @@ const myVector<myString>& Event::getCodes() const
 unsigned int Event::getFreeSeats() const
 {
 	return this->freeseats;
+}
+
+void Event::writeOnFile(const char* fileName)
+{
+	std::ofstream myFile(fileName, std::ios::app);
+
+	myFile << "Event" << std::endl;
+	myFile << eventName << std::endl;
+	myFile << hall.getHallName() << std::endl;
+	myFile << date << std::endl;
+	myFile << "bookings" << std::endl;
+
+	int bookingsSize = bookings.length();
+
+	for (int i = 0; i < bookingsSize; i++)
+	{
+		myFile << bookings[i].getNote() << " row: " << bookings[i].getRow() << " seat: " << bookings[i].getSeat() << std::endl;
+	}
+
+	myFile << "codes" << std::endl;
+	int codesLength = codes.length();
+
+	for (size_t i = 0; i < codesLength; i++)
+	{
+		myFile << codes[i] << std::endl;
+	}
+
+	myFile.close();
 }
 
 std::ostream& operator<<(std::ostream& out, const Event& event)

@@ -24,5 +24,9 @@ public:
 
 	bool hallIsFree(const myString& hallName, const Date& date) const;
 
+	void writeOnFile(const myString& fileName);
+
+	void readFormFile(const myString& fileName);
+
 	void printTotalInfo();
 };
