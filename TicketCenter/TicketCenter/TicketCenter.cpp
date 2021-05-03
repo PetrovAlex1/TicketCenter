@@ -1,4 +1,6 @@
+#include <fstream>
 #include "TicketCenter.h"
+#pragma warning(disable:4996)
 
 TicketCenter::TicketCenter(const myString& _name)
 {
@@ -8,6 +10,8 @@ TicketCenter::TicketCenter(const myString& _name)
 void TicketCenter::startUp()
 {
 	std::cout << "Welcom to " << name << " ticket center!" << std::endl;
+	bool isOpened = false;
+	myString fileToSave;
 
 	while (true)
 	{
@@ -19,7 +23,7 @@ void TicketCenter::startUp()
 		arguments = input.splitBy(' ');
 		myString command = arguments[0];
 
-		if (command == "addhall")
+		if (command == "addhall" && isOpened)
 		{
 			unsigned int totalSeats = arguments[2].toInt();
 			unsigned int rows = arguments[3].toInt();
@@ -31,7 +35,7 @@ void TicketCenter::startUp()
 
 			std::cout << "Hall successfully added!" << std::endl;
 		}
-		else if (command == "addevent")
+		else if (command == "addevent" && isOpened)
 		{
 			myString hallName{ arguments[2] };
 
@@ -57,7 +61,7 @@ void TicketCenter::startUp()
 
 			std::cout << "No such hall!" << std::endl;
 		}
-		else if (command == "freeseats")
+		else if (command == "freeseats" && isOpened)
 		{
 			Date date;
 			date.setDate(arguments[1]);
@@ -72,7 +76,7 @@ void TicketCenter::startUp()
 
 			std::cout << "There is no such event " << eventName << " on date " << date << std::endl;
 		}
-		else if (command == "book")
+		else if (command == "book" && isOpened)
 		{
 			unsigned int row = arguments[1].toInt();
 			unsigned int seat = arguments[2].toInt();
@@ -91,7 +95,7 @@ void TicketCenter::startUp()
 
 			std::cout << "There is no such event " << eventName << " on date " << date << std::endl;
 		}
-		else if (command == "unbook")
+		else if (command == "unbook" && isOpened)
 		{
 			unsigned int row = arguments[1].toInt();
 			unsigned int seat = arguments[2].toInt();
@@ -109,7 +113,7 @@ void TicketCenter::startUp()
 
 			std::cout << "There is no such event " << eventName << " on date " << date << std::endl;
 		}
-		else if (command == "buy")
+		else if (command == "buy" && isOpened)
 		{
 			unsigned int row = arguments[1].toInt();
 			unsigned int seat = arguments[2].toInt();
@@ -127,7 +131,7 @@ void TicketCenter::startUp()
 
 			std::cout << "There is no such event " << eventName << " on date " << date << std::endl;
 		}
-		else if (command == "bookings")
+		else if (command == "bookings" && isOpened)
 		{
 			if (arguments.length() == 3)
 			{
@@ -147,7 +151,7 @@ void TicketCenter::startUp()
 			}
 			else
 			{
-				if (arguments.length() == 1)//if the input is only bookings then it prints information for all dates
+				if (arguments.length() == 1)//if the input is only "bookings" then it prints information for all dates
 				{
 					int length = events.length();
 
@@ -157,7 +161,7 @@ void TicketCenter::startUp()
 						events[i].getBookings().print();
 					}
 				}
-				else //if the input is bookings <date> then it prints all bookings on the exact <date> 
+				else //if the input is "bookings <date>" then it prints all bookings on the exact <date> 
 				{
 					int length = events.length();
 					bool dateExist = false;
@@ -181,7 +185,7 @@ void TicketCenter::startUp()
 				}
 			}
 		}
-		else if (command == "check")
+		else if (command == "check" && isOpened)
 		{
 			myString code = arguments[1];
 			bool isFound = false;
@@ -203,7 +207,7 @@ void TicketCenter::startUp()
 
 			std::cout << "There is no such purchased ticket with code " << code << std::endl;
 		}
-		else if (command == "report")
+		else if (command == "report" && isOpened)
 		{
 			myString formStr = arguments[1];
 			Date startDate;
@@ -253,19 +257,40 @@ void TicketCenter::startUp()
 		}
 		else if (command == "open")
 		{
+			if (isOpened)
+			{
+				std::cout << "File is opened!" << std::endl;
+				continue;
+			}
 
+			isOpened = true;
+			fileToSave = arguments[1];
+			readFormFile(fileToSave);
+			std::cout << "File is opened!" << std::endl;
 		}
 		else if (command == "close")
 		{
+			events.~myVector();
+			halls.~myVector();
+			myVector<Event> newEvents;
+			myVector<Hall> newHalls;
+			events = newEvents;
+			halls = newHalls;
+			fileToSave.~myString();
+			isOpened = false;
 
+			std::cout << "File is closed!" << std::endl;
 		}
 		else if (command == "save")
 		{
-
+			writeOnFile(fileToSave);
+			std::cout << "File is saved!" << std::endl;
 		}
 		else if (command == "saveas")
 		{
-
+			myString directory = arguments[1];
+			writeOnFile(directory);
+			std::cout << "File is saved on " << directory << " directory!" << std::endl;
 		}
 		else if (command == "help")
 		{
@@ -279,6 +304,7 @@ void TicketCenter::startUp()
 			std::cout << "bookings [<date>] [<name>]" << std::endl;
 			std::cout << "check <code>" << std::endl;
 			std::cout << "report <from> <to> [<hall>]" << std::endl;
+			std::cout << "statistics - display statistics for the most watched events" << std::endl;
 			std::cout << "open <file name> - opens file <file name>" << std::endl;
 			std::cout << "close - closes currently opened file" << std::endl;
 			std::cout << "save - saves the currently open file" << std::endl;
@@ -291,15 +317,44 @@ void TicketCenter::startUp()
 		}
 		else if (command == "print")
 		{
-			if (halls.length() != 0 && events.length() != 0)
+			if (halls.length() != 0 || events.length() != 0)
 			{
 				printTotalInfo();
 				continue;
 			}
 
-			std::cout << "There are no an"
+			std::cout << "There are no events or halls yet!" << std::endl;
 		}
-		else
+		else if (command == "statistics")
+		{
+			double totalViews = 0;
+			int countEvents = events.length();
+			int* positions = new int[countEvents + 1];//positions will keep the indexes from events from the most watched event to the event with fewest watches
+
+			for (int i = 0; i < countEvents; i++)
+			{
+				totalViews += events[i].getCodes().length();
+				positions[i] = i;
+			}
+			for (int i = 0; i < countEvents - 1; i++)//order the events with positions 
+			{
+				for (int j = 0; j < countEvents - 1; j++)
+				{
+					if (events[j].getCodes().length() > events[j + 1].getCodes().length())
+					{
+						int tempPosition = positions[j];
+						positions[j] = positions[j + 1];
+						positions[j] = tempPosition;
+					}
+				}
+			}
+			for (int i = 0; i < countEvents; i++)
+			{
+				double currentPercentage = (events[positions[i]].getCodes().length() / totalViews) * 100;
+				std::cout << events[positions[i]].getEventName() << " - " << currentPercentage << std::endl;
+			}
+		}
+		else if (isOpened)
 		{
 			std::cout << "Command is invalid!" << std::endl;
 		}
@@ -366,6 +421,171 @@ bool TicketCenter::hallIsFree(const myString& hallName, const Date& date) const
 	}
 
 	return true;
+}
+
+void TicketCenter::writeOnFile(const myString& fileName)
+{
+	int newLength = fileName.length();
+	char* fileNameCharArr = new char[newLength + 1];
+
+	for (int i = 0; i < newLength; i++)
+	{
+		fileNameCharArr[i] = fileName[i];
+	}
+
+	fileNameCharArr[newLength] = '\0';
+
+	std::ofstream myFile(fileNameCharArr, std::ios::out | std::ios::trunc);
+	int hallsSize = halls.length();
+	int eventsSize = events.length();
+
+	for (int i = 0; i < hallsSize; i++)
+	{
+		halls[i].writeOnfFile(fileNameCharArr);
+	}
+	for (int i = 0; i < eventsSize; i++)
+	{
+		events[i].writeOnFile(fileNameCharArr);
+	}
+
+	myFile.close();
+	delete[] fileNameCharArr;
+}
+
+void TicketCenter::readFormFile(const myString& fileName)
+{
+	std::ifstream myFile;
+	bool fileExist = false;
+	int newLength = fileName.length();
+	char* fileNameCharArr = new char[newLength + 1];
+
+	for (int i = 0; i < newLength; i++)
+	{
+		fileNameCharArr[i] = fileName[i];
+	}
+
+	fileNameCharArr[newLength] = '\0';
+
+	myFile.open(fileNameCharArr);
+	char buffer[64];
+
+	while (myFile.getline(buffer, 64, '\n'))
+	{
+		fileExist = true;
+
+		if (!strcmp(buffer, "Hall"))
+		{
+			int i = 0;
+			myString hallName;
+			unsigned int rows = 0, seatsOnRow = 0, totalSeats = 0;
+			while (myFile.getline(buffer, 64, '\n'))
+			{
+				myString currentLine;
+				currentLine.setString(buffer);
+
+				if (i == 0)//hall name
+				{
+					hallName = currentLine;
+					i++;
+				}
+				else if (i == 1) //total seats
+				{
+					totalSeats = currentLine.toInt();
+					i++;
+				}
+				else if (i == 2) //rows
+				{
+					rows = currentLine.toInt();
+					i++;
+				}
+				else if (i == 3) //seats on Row
+				{
+					seatsOnRow = currentLine.toInt();
+					break;
+				}
+			}
+
+			Hall hall{ hallName, totalSeats, rows, seatsOnRow };
+			halls.add(hall);
+		}
+		else
+		{
+			Event event;
+			int i = 0;
+
+			while (myFile.getline(buffer, 64, '\n'))
+			{
+				myString currentLine;
+				currentLine.setString(buffer);
+
+				if (i == 0)//event name
+				{
+					event.setEventName(currentLine);
+					i++;
+				}
+				else if (i == 1)//hall name
+				{
+					int indexOfHall = getHall(currentLine);
+					event.setHall(halls[indexOfHall]);
+					i++;
+				}
+				else if (i == 2)//date
+				{
+					Date date;
+					date.setDate(currentLine);
+					event.setDate(date);
+					i++;
+				}
+				else if (i == 3)//bookings
+				{
+					while (myFile.getline(buffer, 64, '\n'))
+					{
+						myString currentBooking;
+						currentBooking.setString(buffer);
+						myVector<myString> arguments = currentBooking.splitBy(' ');
+
+						if (!strcmp(buffer, "codes"))
+						{
+							i++;
+							break;
+						}
+
+						event.bookTicket(arguments[2].toInt(), arguments[4].toInt(), arguments[0]);
+					}
+				}
+				else if (i == 4)//codes from bought tickets
+				{
+					unsigned int row = buffer[3] - '0';
+					unsigned int seat = buffer[4] - '0';
+					event.buyTicket(row, seat);
+
+					while (myFile.getline(buffer, 64, '\n'))
+					{
+						if (!strcmp(buffer, "Event"))
+						{
+							i = 0;
+							events.add(event);
+							break;
+						}
+
+						unsigned int row = buffer[3] - '0';
+						unsigned int seat = buffer[4] - '0';
+						event.buyTicket(row, seat);
+					}
+				}
+			}
+
+			events.add(event);
+		}
+	}
+
+	myFile.close();
+	delete[] fileNameCharArr;
+
+	if (!fileExist)
+	{
+		writeOnFile(fileName);
+	}
 }
 
 void TicketCenter::printTotalInfo()

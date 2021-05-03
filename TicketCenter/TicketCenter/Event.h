@@ -48,4 +48,5 @@ public:
 
 	friend std::ostream& operator<<(std::ostream& out, const Event& event);
 
+	void writeOnFile(const char* fileName);
 };

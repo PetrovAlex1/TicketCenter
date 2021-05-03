@@ -11,8 +11,8 @@ int main()
 	myString ticketCenterName;
 	std::cin >> ticketCenterName;
 
-	TicketCenter rozalia{ ticketCenterName };
-	rozalia.startUp();
+	TicketCenter ticketCenter{ ticketCenterName };
+	ticketCenter.startUp();
 
 	return 0;
 }
