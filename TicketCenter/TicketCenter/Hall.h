@@ -6,7 +6,7 @@ class Hall
 {
 private:
 	myString hallName;
-	unsigned int totalSeats;//TODO unsigned int
+	unsigned int totalSeats;
 	unsigned int rows;
 	unsigned int seatsOnRow;
 	int** matrixHall;
