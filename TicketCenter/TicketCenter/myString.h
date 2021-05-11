@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include <string>
+#include <cstring>
 #include "myVector.h"
 
 #ifdef _MSC_VER
@@ -17,11 +17,6 @@ private:
 
 	void copy(const myString& other)
 	{
-		/*if (data != nullptr)
-		{
-			delete[] data;
-		}*/
-
 		this->data = new char[other.capacity];
 		this->size = other.size;
 		this->capacity = other.capacity;
