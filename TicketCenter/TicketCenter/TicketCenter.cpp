@@ -15,7 +15,6 @@ void TicketCenter::startUp()
 
 	while (true)
 	{
-	theBegining:
 		std::cout << "Waiting for your command..." << std::endl;
 		myString input;
 		std::cin >> input;
@@ -190,6 +189,7 @@ void TicketCenter::startUp()
 			myString code = arguments[1];
 			bool isFound = false;
 			int eventsLength = events.length();
+			bool flag = false;
 
 			for (int i = 0; i < eventsLength; i++)
 			{
@@ -200,12 +200,21 @@ void TicketCenter::startUp()
 					if (events[i].getCodes()[j] == code)
 					{
 						std::cout << "The ticket is valid and it's seat is on row " << code[3] << " and seat " << code[4] << std::endl;
-						goto theBegining;
+						flag = true;
+						break;
 					}
+				}
+
+				if (flag)
+				{
+					break;
 				}
 			}
 
-			std::cout << "There is no such purchased ticket with code " << code << std::endl;
+			if (!flag)
+			{
+				std::cout << "There is no such purchased ticket with code " << code << std::endl;
+			}
 		}
 		else if (command == "report" && isOpened)
 		{

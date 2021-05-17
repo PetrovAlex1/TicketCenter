@@ -11,8 +11,11 @@ int main()
 	myString ticketCenterName;
 	std::cin >> ticketCenterName;
 
-	TicketCenter ticketCenter{ ticketCenterName };
-	ticketCenter.startUp();
+	ticketCenterName[1] = 'i';
+	std::cout << ticketCenterName;
+
+	//TicketCenter ticketCenter{ ticketCenterName };
+	//ticketCenter.startUp();
 
 	return 0;
 }
