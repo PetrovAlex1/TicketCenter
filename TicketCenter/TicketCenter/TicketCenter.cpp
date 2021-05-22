@@ -1,4 +1,5 @@
 #include <fstream>
+#include <stdexcept>
 #include "TicketCenter.h"
 #pragma warning(disable:4996)
 
@@ -73,7 +74,7 @@ void TicketCenter::startUp()
 				continue;
 			}
 
-			std::cout << "There is no such event " << eventName << " on date " << date << std::endl;
+			std::cout << "There is no such event on this date" << std::endl;
 		}
 		else if (command == "book" && isOpened)
 		{
@@ -273,9 +274,21 @@ void TicketCenter::startUp()
 			}
 
 			isOpened = true;
-			fileToSave = arguments[1];
-			readFormFile(fileToSave);
-			std::cout << "File is opened!" << std::endl;
+			fileToSave = arguments[1];//file.txt -> 8
+			int nameSize = fileToSave.length();
+
+			if ( nameSize > 4
+				&& fileToSave[nameSize - 4] == '.'
+				&& fileToSave[nameSize - 3] == 't'
+				&& fileToSave[nameSize - 2] == 'x'
+				&& fileToSave[nameSize - 1] == 't')
+			{
+				readFormFile(fileToSave);
+				std::cout << "File is opened!" << std::endl;
+				continue;
+			}
+
+			std::cout << "File is invalid!" << std::endl;
 		}
 		else if (command == "close")
 		{

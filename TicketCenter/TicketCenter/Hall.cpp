@@ -1,4 +1,5 @@
-#include<fstream>
+#include <fstream>
+#include <stdexcept>
 #include "Hall.h"
 
 Hall::Hall()
@@ -82,10 +83,17 @@ void Hall::setHallName(const myString& hallName)
 
 void Hall::setTotalSeats(const unsigned int totalSeats)
 {
-	if ((totalSeats == 0 || totalSeats > 2500) && (rows * seatsOnRow != totalSeats))
+	try
 	{
-		std::cout << "Hall too large or invalid digit!" << std::endl;
-		exit(0);
+		if ((totalSeats == 0 || totalSeats > 2500) || (rows * seatsOnRow != totalSeats))
+		{
+			throw std::invalid_argument("Invalid argument exceptioin: Hall too large or invalid digit!");
+		}
+	}
+	catch (const std::invalid_argument& err)
+	{
+		std::cerr << err.what() << std::endl;
+		exit(2);
 	}
 
 	this->totalSeats = totalSeats;
@@ -93,10 +101,17 @@ void Hall::setTotalSeats(const unsigned int totalSeats)
 
 void Hall::setRows(const unsigned int rows)
 {
-	if (rows == 0 || rows > 50)
+	try
 	{
-		std::cout << "Too much rows or invalid digit!" << std::endl;
-		exit(0);
+		if (rows == 0 || rows > 50)
+		{
+			throw std::invalid_argument("Invalid argument exceptioin: Too much rows or invalid digit!");
+		}
+	}
+	catch (const std::invalid_argument& err)
+	{
+		std::cerr << err.what() << std::endl;
+		exit(2);
 	}
 
 	this->rows = rows;
@@ -104,9 +119,16 @@ void Hall::setRows(const unsigned int rows)
 
 void Hall::setSeatsOnRow(const unsigned int seatsOnRow)
 {
-	if (seatsOnRow == 0 || seatsOnRow > 50)
+	try
 	{
-		std::cout << "Too much seats on a row or invalid digit!" << std::endl;
+		if (seatsOnRow == 0 || seatsOnRow > 50)
+		{
+			throw std::invalid_argument("Invalid argument exceptioin: Too much seats on a row or invalid digit!");
+		}
+	}
+	catch (const std::invalid_argument& err)
+	{
+		std::cerr << err.what() << std::endl;
 		exit(0);
 	}
 
@@ -136,15 +158,21 @@ void Hall::showMatrix() const
 
 void Hall::changeSeatBehavior(const unsigned int& row, const unsigned int& seat, const unsigned int& code)
 {
-	if (row > rows || seat > seatsOnRow)
+	try
 	{
-		std::cout << "Invalid seat!" << std::endl;
-		exit(0);
+		if (row > rows || seat > seatsOnRow)
+		{
+			throw std::invalid_argument("Invalid argument exceptioin: Invalid seat!");
+		}
+		if (code < 0 || code > 2)
+		{
+			throw std::invalid_argument("Invalid argument exceptioin: Code is invalid!");
+		}
 	}
-	if (code < 0 || code > 2)
+	catch (const std::invalid_argument& err)
 	{
-		std::cout << "Code is invalid!" << std::endl;
-		exit(0);
+		std::cerr << err.what() << std::endl;
+		exit(2);
 	}
 
 	matrixHall[row][seat] = code;
@@ -181,9 +209,9 @@ Hall& Hall::operator=(const Hall& other)
 	{
 		int previousRows = rows;
 		setHallName(other.getHallName());
-		setTotalSeats(other.getTotalSeats());
 		setRows(other.getRows());
 		setSeatsOnRow(other.getSeatsOnRow());
+		setTotalSeats(other.getTotalSeats());
 		copyMatrix(other.getMatrixHall(), previousRows);
 	}
 
