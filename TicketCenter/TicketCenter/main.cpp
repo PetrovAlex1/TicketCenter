@@ -7,15 +7,12 @@
 
 int main()
 {
-	std::cout << "Enter name: ";
+	std::cout << "Enter name of ticket center: ";
 	myString ticketCenterName;
 	std::cin >> ticketCenterName;
 
-	ticketCenterName[1] = 'i';
-	std::cout << ticketCenterName;
-
-	//TicketCenter ticketCenter{ ticketCenterName };
-	//ticketCenter.startUp();
+	TicketCenter ticketCenter{ ticketCenterName };
+	ticketCenter.startUp();
 
 	return 0;
 }

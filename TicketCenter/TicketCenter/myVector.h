@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <stdexcept>
 
 template <typename T>
 
@@ -74,11 +75,37 @@ public:
 
 	const T& operator[](const int index) const
 	{
+		try
+		{
+			if (index > this->size)
+			{
+				throw std::out_of_range("Out of range exception: Index out of range exception!");
+			}
+		}
+		catch (const std::out_of_range& err)
+		{
+			std::cerr << err.what() << std::endl;
+			exit(2);
+		}
+
 		return this->data[index];
 	}
 
 	T& operator[](const int index)
 	{
+		try
+		{
+			if (index > this->size)
+			{
+				throw std::out_of_range("Out of range exception: Index out of range exception!");
+			}
+		}
+		catch (const std::out_of_range& err)
+		{
+			std::cerr << err.what() << std::endl;
+			exit(2);
+		}
+
 		return this->data[index];
 	}
 

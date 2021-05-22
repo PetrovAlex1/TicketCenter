@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include "Date.h"
 #include "myVector.h"
 #include "myString.h"
@@ -83,26 +84,65 @@ Date::Date(const unsigned int& day, const unsigned int& month, const unsigned in
 	setMonth(month);
 	setYear(year);
 
-	if (!validateDate())
+	try
 	{
-		std::cout << "Date is invalid!" << std::endl;//TODO add error message
-		exit(0);
+		if (!validateDate())
+		{
+			throw std::invalid_argument("Invalid argument exception: Date is invalid!");
+		}
+	}
+	catch (const std::invalid_argument& err)
+	{
+		std::cerr << err.what() << std::endl;
+		exit(2);
 	}
 }
 
 void Date::setDate(myString& date)
 {
 	myVector<myString> arguments;
+
 	arguments = date.splitBy('-');
+
+	//check input 
+	try
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			myString currentNumber = arguments[i];
+			int count = i > 0 ? 2 : 4;
+
+			for (int j = 0; j < count; j++)
+			{
+				if (currentNumber[j] < '0' || currentNumber[j] > '9')
+				{
+					throw std::invalid_argument("Invalid argument exception: Input date is invalid!");
+				}
+
+				break;
+			}
+		}
+	}
+	catch (const std::invalid_argument& err)
+	{
+		std::cerr << err.what() << std::endl;
+		exit(2);
+	}
 
 	setDay(arguments[2].toInt());
 	setMonth(arguments[1].toInt());
 	setYear(arguments[0].toInt());
 
-	if (!validateDate())
+	try
 	{
-		std::cout << "Date is invalid!" << std::endl;
-		exit(0);
+		if (!validateDate())
+		{
+			throw std::invalid_argument("Date is invalid!");
+		}
+	}
+	catch (const std::invalid_argument& err)
+	{
+		std::cerr << err.what() << std::endl;
 	}
 }
 
@@ -116,10 +156,17 @@ void const Date::showDate() const
 
 void Date::setDay(const unsigned int& day)
 {
-	if (day > 31)
+	try
 	{
-		std::cout << "Day is invalid!" << std::endl;
-		exit(0);
+		if (day > 31)
+		{
+			throw std::invalid_argument("Day is invalid!");
+		}
+	}
+	catch (const std::invalid_argument& err)
+	{
+		std::cerr << err.what() << std::endl;
+		exit(2);
 	}
 
 	this->day = day;
@@ -127,67 +174,81 @@ void Date::setDay(const unsigned int& day)
 
 void Date::setMonth(const unsigned int& _month)
 {
-	if (_month == 1)
+	try
 	{
-		month = Month::January;
+		if (_month == 1)
+		{
+			month = Month::January;
+		}
+		else if (_month == 2)
+		{
+			month = Month::February;
+		}
+		else if (_month == 3)
+		{
+			month = Month::March;
+		}
+		else if (_month == 4)
+		{
+			month = Month::April;
+		}
+		else if (_month == 5)
+		{
+			month = Month::May;
+		}
+		else if (_month == 6)
+		{
+			month = Month::June;
+		}
+		else if (_month == 7)
+		{
+			month = Month::July;
+		}
+		else if (_month == 8)
+		{
+			month = Month::August;
+		}
+		else if (_month == 9)
+		{
+			month = Month::September;
+		}
+		else if (_month == 10)
+		{
+			month = Month::October;
+		}
+		else if (_month == 11)
+		{
+			month = Month::November;
+		}
+		else if (_month == 12)
+		{
+			month = Month::December;
+		}
+		else
+		{
+			throw std::invalid_argument("Month is invalid!");
+		}
 	}
-	else if (_month == 2)
+	catch (const std::invalid_argument& err)
 	{
-		month = Month::February;
-	}
-	else if (_month == 3)
-	{
-		month = Month::March;
-	}
-	else if (_month == 4)
-	{
-		month = Month::April;
-	}
-	else if (_month == 5)
-	{
-		month = Month::May;
-	}
-	else if (_month == 6)
-	{
-		month = Month::June;
-	}
-	else if (_month == 7)
-	{
-		month = Month::July;
-	}
-	else if (_month == 8)
-	{
-		month = Month::August;
-	}
-	else if (_month == 9)
-	{
-		month = Month::September;
-	}
-	else if (_month == 10)
-	{
-		month = Month::October;
-	}
-	else if (_month == 11)
-	{
-		month = Month::November;
-	}
-	else if (_month == 12)
-	{
-		month = Month::December;
-	}
-	else
-	{
-		std::cout << "Invalid month!" << std::endl;
-		exit(0);
+		std::cerr << err.what() << std::endl;
+		exit(2);
 	}
 }
 
 void Date::setYear(const unsigned int& year)
 {
-	if (year < 0)//TODO change validation
+	try
 	{
-		std::cout << "Year is invalid!" << std::endl;
-		exit(0);
+		if (year > 3000)
+		{
+			throw std::invalid_argument("Year is invalid!");
+		}
+	}
+	catch (const std::invalid_argument& err)
+	{
+		std::cerr << err.what() << std::endl;
+		exit(2);
 	}
 
 	this->year = year;

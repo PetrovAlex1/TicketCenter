@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include <fstream>
 #include "Event.h"
 
@@ -43,15 +44,30 @@ void Event::buyTicket(unsigned int& row, unsigned int& seat)
 
 void Event::bookTicket(const int& row, const int& seat, const myString& note)
 {
-	if (row > hall.getRows())
+	try
 	{
-		std::cout << "Row is out of range!" << std::endl;
-		exit(0);
+		if (row > hall.getRows())
+		{
+			throw std::out_of_range("Out of range exception: Row is out of range or is invalid!");
+		}
+		else if (seat > hall.getSeatsOnRow())
+		{
+			throw std::out_of_range("Out of range exception: Seat is out of range or is invalid!");
+		}
+		else if (this->hall.getMatrixHall()[row][seat] != 0)
+		{
+			throw std::runtime_error("Ivalid operation exception: The seat is already reserved!");
+		}
 	}
-	else if (seat > hall.getSeatsOnRow())
+	catch (const std::out_of_range& err)
 	{
-		std::cout << "Seat is out of range!" << std::endl;
-		exit(0);
+		std::cerr << err.what() << std::endl;
+		exit(2);
+	}
+	catch (const std::runtime_error& err)
+	{
+		std::cerr << err.what() << std::endl;
+		exit(2);
 	}
 
 	hall.changeSeatBehavior(row, seat, 1);
@@ -62,20 +78,30 @@ void Event::bookTicket(const int& row, const int& seat, const myString& note)
 
 void Event::unbookTicket(const int& row, const int& seat)
 {
-	if (freeseats == hall.getTotalSeats())
+	try
 	{
-		std::cout << "Cannot unbook seat, which is not booked!" << std::endl;
-		exit(0);
+		if (freeseats == hall.getTotalSeats())
+		{
+			throw std::runtime_error("Invalid operation exception: Cannot unbook seat, which is not booked!");
+		}
+		else if (row > hall.getRows())
+		{
+			throw std::out_of_range("Out of range exception: Row is out of range or is invalid!");
+		}
+		else if (seat > hall.getSeatsOnRow())
+		{
+			throw std::out_of_range("Out of range exception: Seat is out of range or is invalid!");
+		}
 	}
-	if (row > hall.getRows())
+	catch (const std::out_of_range& err)
 	{
-		std::cout << "Row is out of range!" << std::endl;
-		exit(0);
+		std::cerr << err.what() << std::endl;
+		exit(2);
 	}
-	else if (seat > hall.getSeatsOnRow())
+	catch (const std::runtime_error& err)
 	{
-		std::cout << "Seat is out of range!" << std::endl;
-		exit(0);
+		std::cerr << err.what() << std::endl;
+		exit(2);
 	}
 
 	hall.changeSeatBehavior(row, seat, 0);

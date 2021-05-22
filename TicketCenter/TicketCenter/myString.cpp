@@ -1,4 +1,4 @@
-#include <iostream>
+#include <exception>
 #include <cstring>
 #include "myString.h"
 
@@ -71,14 +71,21 @@ myVector<myString> myString::splitBy(const char& symbol)
 unsigned int myString::toInt()
 {
 	int result = 0;
+	bool flag = false;
 
 	for (int i = 0; i < size && (data[i] >= '0' && data[i] <= '9'); i++)
 	{
+		flag = true;
 		int currentDigit = data[i] - '0';
 		result = currentDigit + result * 10;
 	}
 
-	return result;
+	if (flag)
+	{
+		return result;
+	}
+
+	return -1;
 }
 
 bool myString::isFormLetters() const
@@ -240,10 +247,17 @@ const int myString::length() const
 
 const char myString::operator[](const int index) const
 {
-	if (index < 0 || index > this->size)
+	try
 	{
-		std::cout << "Index out of range exception!";
-		return 0;
+		if (index < 0 || index > this->size)
+		{
+			throw std::out_of_range("Out of range exception: Index out of range!");
+		}
+	}
+	catch (const std::out_of_range& err)
+	{
+		std::cerr << err.what() << std::endl;
+		exit(2);
 	}
 
 	return this->data[index];
@@ -251,12 +265,19 @@ const char myString::operator[](const int index) const
 
 char myString::operator[](const int index)
 {
-	if (index < 0 || index > this->size)
+	try
 	{
-		std::cout << "Index out of range exception!";
-		return 0;
+		if (index < 0 || index > this->size)
+		{
+		 	throw std::out_of_range ("Out of range exception: Index out of range!");
+		}
 	}
-
+	catch (const std::out_of_range& err)
+	{
+		std::cerr << err.what() << std::endl;
+		exit(2);
+	}
+	
 	return this->data[index];
 }
 
