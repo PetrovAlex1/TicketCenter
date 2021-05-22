@@ -76,18 +76,25 @@ void TicketCenter::startUp()
 
 			std::cout << "There is no such event on this date" << std::endl;
 		}
-		else if (command == "book" && isOpened)
+		else if (command == "book" && isOpened)//book 
 		{
-			unsigned int row = arguments[1].toInt();
-			unsigned int seat = arguments[2].toInt();
 			Date date;
-			date.setDate(arguments[3]);
-			myString eventName = arguments[4];
-			myString note = arguments[5];
+			date.setDate(arguments[1]);
+			myString eventName = arguments[2];
 			int indexOfEvent = 0;
 
 			if (existEvent(date, eventName, indexOfEvent))
 			{
+				events[indexOfEvent].getHall().showMatrix();
+				std::cout << "Enter the number of row and seat, after that enter the note" << std::endl;
+				myString bookInput;
+				std::cin >> bookInput;
+				myVector<myString> bookArguments;
+				bookArguments = bookInput.splitBy(' ');
+
+				unsigned int row = bookArguments[1].toInt();
+				unsigned int seat = bookArguments[2].toInt();
+				myString note = bookArguments[3];
 				events[indexOfEvent].bookTicket(row, seat, note);
 				std::cout << "Ticket was booked successfully!" << std::endl;
 				continue;
@@ -115,15 +122,22 @@ void TicketCenter::startUp()
 		}
 		else if (command == "buy" && isOpened)
 		{
-			unsigned int row = arguments[1].toInt();
-			unsigned int seat = arguments[2].toInt();
 			Date date;
-			date.setDate(arguments[3]);
-			myString eventName = arguments[4];
+			date.setDate(arguments[1]);
+			myString eventName = arguments[2];
 			int indexOfEvent = 0;
 
 			if (existEvent(date, eventName, indexOfEvent))
 			{
+				events[indexOfEvent].getHall().showMatrix();
+				std::cout << "Enter the number of row and seat" << std::endl;
+				myString buyInput;
+				std::cin >> buyInput;
+				myVector<myString> buyArguments;
+				buyArguments = buyInput.splitBy(' ');
+				unsigned int row = buyArguments[1].toInt();
+				unsigned int seat = buyArguments[2].toInt();
+
 				events[indexOfEvent].buyTicket(row, seat);
 				std::cout << "Ticket was bought successfully!" << std::endl;
 				continue;
@@ -277,7 +291,7 @@ void TicketCenter::startUp()
 			fileToSave = arguments[1];//file.txt -> 8
 			int nameSize = fileToSave.length();
 
-			if ( nameSize > 4
+			if (nameSize > 4
 				&& fileToSave[nameSize - 4] == '.'
 				&& fileToSave[nameSize - 3] == 't'
 				&& fileToSave[nameSize - 2] == 'x'
