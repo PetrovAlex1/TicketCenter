@@ -7,24 +7,6 @@
 #endif
 #pragma warning(disable:4996)
 
-int countParts(const myString& str, const char& symbol)
-{
-	int countWS = 0;
-	int i = 0;
-
-	while (i != str.length())
-	{
-		if (str[i] == symbol)
-		{
-			countWS++;
-		}
-
-		i++;
-	}
-
-	return countWS;
-}
-
 myString::myString()
 {
 	this->data = nullptr;
@@ -45,25 +27,32 @@ myString::~myString()
 myVector<myString> myString::splitBy(const char& symbol)
 {
 	int i = 0;
-	int countWS = countParts(*this, symbol);//count whitespaces
-
 	myVector<myString> vect;
-	int j = 0;
+	bool flag = false;
 
-	for (i = 0; i < countWS + 1; i++)
+	while (true)
 	{
 		myString currentString;
 
-		while (this->data[j] != symbol && this->data[j] != '\0')
+		while (this->data[i] != symbol && this->data[i] != '\0' && this->data[i] != '\t')
 		{
-			currentString.append(this->data[j]);
-			j++;
+			currentString.append(this->data[i]);
+			flag = true;
+			i++;
 		}
 
-		vect.add(currentString);
-		j++;
-	}
+		if (flag)
+		{
+			vect.add(currentString);
+			flag = false;
+		}
+		if (this->data[i] == '\0')
+		{
+			break;
+		}
 
+		i++;
+	}
 
 	return vect;
 }

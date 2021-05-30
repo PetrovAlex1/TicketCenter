@@ -76,7 +76,7 @@ void TicketCenter::startUp()
 
 			std::cout << "There is no such event on this date" << std::endl;
 		}
-		else if (command == "book" && isOpened)//book 
+		else if (command == "book" && isOpened)
 		{
 			Date date;
 			date.setDate(arguments[1]);
@@ -356,7 +356,6 @@ void TicketCenter::startUp()
 			if (halls.length() != 0 || events.length() != 0)
 			{
 				printTotalInfo();
-				continue;
 			}
 
 			std::cout << "There are no events or halls yet!" << std::endl;
