@@ -1,9 +1,5 @@
 ﻿#include <iostream>
-#include "Hall.h"
-#include "myVector.h"
-#include "myString.h"
-#include "Date.h"
-#include "TicketCenter.h"
+#include "TicketCenterEngine.h"
 
 int main()
 {

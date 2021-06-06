@@ -29,7 +29,9 @@ public:
 
 	Date();
 
-	Date(const unsigned int& day, const unsigned int& month, const unsigned int& year);
+	Date(const unsigned int& day, 
+		const unsigned int& month,
+		const unsigned int& year);
 
 	void setDate(myString& date);
 

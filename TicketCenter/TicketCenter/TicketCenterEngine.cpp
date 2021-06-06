@@ -1,6 +1,6 @@
 #include <fstream>
 #include <stdexcept>
-#include "TicketCenter.h"
+#include "TicketCenterEngine.h"
 #pragma warning(disable:4996)
 
 TicketCenter::TicketCenter(const myString& _name)
@@ -25,6 +25,12 @@ void TicketCenter::startUp()
 
 		if (command == "addhall" && isOpened)
 		{
+			if (arguments.length() != 5)
+			{
+				std::cout << "Too few arguments!" << std::endl;
+				continue;
+			}
+
 			unsigned int totalSeats = arguments[2].toInt();
 			unsigned int rows = arguments[3].toInt();
 			unsigned int seatsOnRow = arguments[4].toInt();
@@ -37,13 +43,20 @@ void TicketCenter::startUp()
 		}
 		else if (command == "addevent" && isOpened)
 		{
+			if (arguments.length() != 4)
+			{
+				std::cout << "Too few arguments!" << std::endl;
+				continue;
+			}
+
 			myString hallName{ arguments[2] };
 
 			if (existHall(hallName))
 			{
 				myString eventName{ arguments[3] };
 				Date date;
-				date.setDate(arguments[1]);
+				myString dateStr = arguments[1];
+				date.setDate(dateStr);
 				int hallIndex = getHall(hallName);
 
 				if (hallIsFree(hallName, date))
@@ -63,8 +76,15 @@ void TicketCenter::startUp()
 		}
 		else if (command == "freeseats" && isOpened)
 		{
+			if (arguments.length() != 3)
+			{
+				std::cout << "Too few arguments!" << std::endl;
+				continue;
+			}
+
 			Date date;
-			date.setDate(arguments[1]);
+			myString dateStr = arguments[1];
+			date.setDate(dateStr);
 			myString eventName = arguments[2];
 			int indexOfEvent = 0;
 
@@ -78,8 +98,15 @@ void TicketCenter::startUp()
 		}
 		else if (command == "book" && isOpened)
 		{
+			if (arguments.length() != 3)
+			{
+				std::cout << "Too few arguments!" << std::endl;
+				continue;
+			}
+
 			Date date;
-			date.setDate(arguments[1]);
+			myString dateStr = arguments[1];
+			date.setDate(dateStr);
 			myString eventName = arguments[2];
 			int indexOfEvent = 0;
 
@@ -91,6 +118,12 @@ void TicketCenter::startUp()
 				std::cin >> bookInput;
 				myVector<myString> bookArguments;
 				bookArguments = bookInput.splitBy(' ');
+
+				if (bookArguments.length() != 4)
+				{
+					std::cout << "Too few arguments!" << std::endl;
+					continue;
+				}
 
 				unsigned int row = bookArguments[1].toInt();
 				unsigned int seat = bookArguments[2].toInt();
@@ -104,10 +137,17 @@ void TicketCenter::startUp()
 		}
 		else if (command == "unbook" && isOpened)
 		{
+			if (arguments.length() != 5)
+			{
+				std::cout << "Too few arguments!" << std::endl;
+				continue;
+			}
+
 			unsigned int row = arguments[1].toInt();
 			unsigned int seat = arguments[2].toInt();
 			Date date;
-			date.setDate(arguments[3]);
+			myString dateStr = arguments[3];
+			date.setDate(dateStr);
 			myString eventName = arguments[4];
 			int indexOfEvent = 0;
 
@@ -122,8 +162,15 @@ void TicketCenter::startUp()
 		}
 		else if (command == "buy" && isOpened)
 		{
+			if (arguments.length() != 3)
+			{
+				std::cout << "Too few arguments!" << std::endl;
+				continue;
+			}
+
 			Date date;
-			date.setDate(arguments[1]);
+			myString dateStr = arguments[1];
+			date.setDate(dateStr);
 			myString eventName = arguments[2];
 			int indexOfEvent = 0;
 
@@ -135,6 +182,13 @@ void TicketCenter::startUp()
 				std::cin >> buyInput;
 				myVector<myString> buyArguments;
 				buyArguments = buyInput.splitBy(' ');
+
+				if (buyArguments.length() != 3)
+				{
+					std::cout << "Too few arguments!" << std::endl;
+					continue;
+				}
+
 				unsigned int row = buyArguments[1].toInt();
 				unsigned int seat = buyArguments[2].toInt();
 
@@ -150,7 +204,8 @@ void TicketCenter::startUp()
 			if (arguments.length() == 3)
 			{
 				Date date;
-				date.setDate(arguments[1]);
+				myString dateStr = arguments[1];
+				date.setDate(dateStr);
 				myString eventName = arguments[2];
 				int indexOfEvent = 0;
 
@@ -180,7 +235,8 @@ void TicketCenter::startUp()
 					int length = events.length();
 					bool dateExist = false;
 					Date date;
-					date.setDate(arguments[1]);
+					myString dateStr = arguments[1];
+					date.setDate(dateStr);
 
 					for (int i = 0; i < length; i++)
 					{
@@ -201,6 +257,12 @@ void TicketCenter::startUp()
 		}
 		else if (command == "check" && isOpened)
 		{
+			if (arguments.length() != 2)
+			{
+				std::cout << "Too few arguments!" << std::endl;
+				continue;
+			}
+
 			myString code = arguments[1];
 			bool isFound = false;
 			int eventsLength = events.length();
@@ -261,7 +323,7 @@ void TicketCenter::startUp()
 					}
 				}
 			}
-			else//if the input is report <form> <to>
+			else if (arguments.length() == 3)//if the input is report <form> <to>
 			{
 				for (int i = 0; i < countEvents; i++)
 				{
@@ -273,6 +335,11 @@ void TicketCenter::startUp()
 					}
 				}
 			}
+			else
+			{
+				std::cout << "Too few arguments!" << std::endl;
+				continue;
+			}
 
 			if (!findEvent)
 			{
@@ -281,6 +348,12 @@ void TicketCenter::startUp()
 		}
 		else if (command == "open")
 		{
+			if (arguments.length() != 2)
+			{
+				std::cout << "Too few arguments!" << std::endl;
+				continue;
+			}
+
 			if (isOpened)
 			{
 				std::cout << "File is opened!" << std::endl;
@@ -304,8 +377,14 @@ void TicketCenter::startUp()
 
 			std::cout << "File is invalid!" << std::endl;
 		}
-		else if (command == "close")
+		else if (command == "close" && isOpened)
 		{
+			if (arguments.length() != 1)
+			{
+				std::cout << "Too few arguments!" << std::endl;
+				continue;
+			}
+
 			events.~myVector();
 			halls.~myVector();
 			myVector<Event> newEvents;
@@ -317,13 +396,25 @@ void TicketCenter::startUp()
 
 			std::cout << "File is closed!" << std::endl;
 		}
-		else if (command == "save")
+		else if (command == "save" && isOpened)
 		{
+			if (arguments.length() != 1)
+			{
+				std::cout << "Too few arguments!" << std::endl;
+				continue;
+			}
+
 			writeOnFile(fileToSave);
 			std::cout << "File is saved!" << std::endl;
 		}
-		else if (command == "saveas")
+		else if (command == "saveas" && isOpened)
 		{
+			if (arguments.length() != 2)
+			{
+				std::cout << "Too few arguments!" << std::endl;
+				continue;
+			}
+
 			myString directory = arguments[1];
 			writeOnFile(directory);
 			std::cout << "File is saved on " << directory << " directory!" << std::endl;
@@ -349,10 +440,22 @@ void TicketCenter::startUp()
 		}
 		else if (command == "exit")
 		{
+			if (arguments.length() != 1)
+			{
+				std::cout << "Too few arguments!" << std::endl;
+				continue;
+			}
+
 			exit(0);
 		}
 		else if (command == "print")
 		{
+			if (arguments.length() != 1)
+			{
+				std::cout << "Too few arguments!" << std::endl;
+				continue;
+			}
+
 			if (halls.length() != 0 || events.length() != 0)
 			{
 				printTotalInfo();
@@ -360,8 +463,14 @@ void TicketCenter::startUp()
 
 			std::cout << "There are no events or halls yet!" << std::endl;
 		}
-		else if (command == "statistics")
+		else if (command == "statistics" && isOpened)
 		{
+			if (arguments.length() != 1)
+			{
+				std::cout << "Too few arguments!" << std::endl;
+				continue;
+			}
+
 			double totalViews = 0;
 			int countEvents = events.length();
 			int* positions = new int[countEvents + 1];//positions will keep the indexes from events from the most watched event to the event with fewest watches

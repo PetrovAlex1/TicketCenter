@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{c92739e1-011c-4fef-925b-11e56ce548bb}</ProjectGuid>
-    <RootNamespace>TicketCenter</RootNamespace>
+    <ProjectGuid>{a4502532-3721-4fb8-a166-c0050c4b77cc}</ProjectGuid>
+    <RootNamespace>Task02week11</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -139,24 +139,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Booking.cpp" />
-    <ClCompile Include="Date.cpp" />
-    <ClCompile Include="Event.cpp" />
-    <ClCompile Include="Hall.cpp" />
+    <ClCompile Include="Car.cpp" />
+    <ClCompile Include="Device.cpp" />
+    <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="Laptop.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="myString.cpp" />
-    <ClCompile Include="TicketCenterEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Booking.h" />
-    <ClInclude Include="Date.h" />
-    <ClInclude Include="doctest.h" />
-    <ClInclude Include="Doctests.cpp" />
-    <ClInclude Include="Event.h" />
-    <ClInclude Include="myString.h" />
-    <ClInclude Include="Hall.h" />
-    <ClInclude Include="myVector.h" />
-    <ClInclude Include="TicketCenterEngine.h" />
+    <ClInclude Include="Car.h" />
+    <ClInclude Include="Device.h" />
+    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="Laptop.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

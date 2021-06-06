@@ -122,6 +122,11 @@ void Date::setDate(myString& date)
 				break;
 			}
 		}
+
+		if (arguments[0].length() != 4 || arguments[1].length() != 2 || arguments[2].length() != 2)
+		{
+			throw std::invalid_argument("Invalid argument exception: Input date is invalid!");
+		}
 	}
 	catch (const std::invalid_argument& err)
 	{

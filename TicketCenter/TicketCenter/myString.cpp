@@ -155,6 +155,7 @@ void myString::append(const char symbol)
 	}
 
 	this->data[this->size] = symbol;
+	this->data[this->size + 1] = '\0';
 	this->size++;
 }
 
@@ -177,6 +178,7 @@ void myString::append(const char* data)
 	}
 
 	this->size += otherSize;
+	this->data[this->size + 1] = '\0';
 }
 
 void myString::append(const myString& other)
@@ -198,6 +200,7 @@ void myString::append(const myString& other)
 	}
 
 	this->size += otherSize;
+	this->data[this->size + 1] = '\0';
 }
 
 void myString::setString(const char* data)

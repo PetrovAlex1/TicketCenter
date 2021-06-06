@@ -30,9 +30,6 @@
     <ClInclude Include="Date.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TicketCenter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Booking.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -41,6 +38,9 @@
     </ClInclude>
     <ClInclude Include="Doctests.cpp">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TicketCenterEngine.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -59,10 +59,10 @@
     <ClCompile Include="Date.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TicketCenter.cpp">
+    <ClCompile Include="Booking.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Booking.cpp">
+    <ClCompile Include="TicketCenterEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

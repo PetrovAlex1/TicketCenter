@@ -25,6 +25,7 @@ private:
 		{
 			this->data[i] = other.data[i];
 		}
+		this->data[this->size] = '\0';
 	}
 
 	void resize(int size)
