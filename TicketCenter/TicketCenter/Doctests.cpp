@@ -6,7 +6,6 @@
 #include "myVector.h"
 #include "myString.h"
 #include "Date.h"
-#include "TicketCenter.h"
 #include "Event.h"
 #include "Booking.h"
 

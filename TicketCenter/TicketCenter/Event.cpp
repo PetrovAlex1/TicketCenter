@@ -56,6 +56,7 @@ void Event::bookTicket(const int& row, const int& seat, const myString& note)
 		}
 		else if (this->hall.getMatrixHall()[row][seat] != 0)
 		{
+			std::cout << this->hall.getMatrixHall()[row][seat];
 			throw std::runtime_error("Ivalid operation exception: The seat is already reserved!");
 		}
 	}

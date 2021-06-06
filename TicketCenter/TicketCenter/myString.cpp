@@ -95,6 +95,12 @@ void myString::fromInt(unsigned int& number)
 	int counter = 0;
 	char digits[8];
 
+	if (number == 0)
+	{
+		append('0');
+		return;
+	}
+
 	while (number != 0)
 	{
 		int currentDigit = number % 10;

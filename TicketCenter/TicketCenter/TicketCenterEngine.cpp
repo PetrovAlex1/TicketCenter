@@ -459,6 +459,7 @@ void TicketCenter::startUp()
 			if (halls.length() != 0 || events.length() != 0)
 			{
 				printTotalInfo();
+				continue;
 			}
 
 			std::cout << "There are no events or halls yet!" << std::endl;
@@ -655,6 +656,7 @@ void TicketCenter::readFormFile(const myString& fileName)
 		else
 		{
 			Event event;
+			bool flag = false;
 			int i = 0;
 
 			while (myFile.getline(buffer, 64, '\n'))
@@ -707,8 +709,7 @@ void TicketCenter::readFormFile(const myString& fileName)
 					{
 						if (!strcmp(buffer, "Event"))
 						{
-							i = 0;
-							events.add(event);
+
 							break;
 						}
 
@@ -716,10 +717,19 @@ void TicketCenter::readFormFile(const myString& fileName)
 						unsigned int seat = buffer[4] - '0';
 						event.buyTicket(row, seat);
 					}
+
+					flag = true;
+				}
+
+				if (flag)
+				{
+					i = 0;
+					events.add(event);
+					Event newEvent;
+					event = newEvent;
+					flag = false;
 				}
 			}
-
-			events.add(event);
 		}
 	}
 
